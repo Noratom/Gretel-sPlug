@@ -15,11 +15,10 @@ interface AdminModalProps {
 }
 
 const CATEGORIES: Category[] = [
-  'Dresses & Gowns',
-  'Suits & Sets',
-  'Silk & Loungewear',
-  'Special Occasion',
-  'Jackets & Coats'
+  'Gowns',
+  'Two piece wear',
+  'Corset',
+  'Free wear'
 ];
 
 export const AdminModal: React.FC<AdminModalProps> = ({
@@ -47,7 +46,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   // Form State for Add/Edit
   const [formData, setFormData] = useState<Partial<BespokeDesign>>({
     title: '',
-    category: 'Dresses & Gowns',
+    category: 'Gowns',
     tagline: '',
     description: '',
     priceRange: '₦60,000 - ₦100,000',
@@ -86,7 +85,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     setFormData({
       id: `gretel-${Date.now()}`,
       title: '',
-      category: 'Dresses & Gowns',
+      category: 'Gowns',
       tagline: '',
       description: '',
       priceRange: '₦60,000 - ₦100,000',
@@ -127,7 +126,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     const newDesignItem: BespokeDesign = {
       id: formData.id || `gretel-${Date.now()}`,
       title: formData.title || 'Untitled Custom Outfit',
-      category: (formData.category as Category) || 'Dresses & Gowns',
+      category: (formData.category as Category) || 'Gowns',
       tagline: formData.tagline || '',
       description: formData.description || '',
       basePriceUSD: 500,
@@ -391,7 +390,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 <div>
                   <label className="text-[11px] font-bold uppercase block mb-1">Category</label>
                   <select
-                    value={formData.category || 'Dresses & Gowns'}
+                    value={formData.category || 'Gowns'}
                     onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as Category }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none cursor-pointer"
                   >

@@ -3,10 +3,10 @@ import { BespokeDesign } from '../types/bespoke';
 export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
     id: 'air-luxe-01',
-    title: 'The Aurelia Silk Evening Dress',
-    category: 'Dresses & Gowns',
+    title: 'The Aurelia Silk Evening Gown',
+    category: 'Gowns',
     tagline: 'Fitted top bodice with a long flowing silk skirt.',
-    description: 'A beautiful handmade evening dress made for weddings, galas, and special dinners. Made with high quality smooth silk, tailored to fit your body shape comfortably.',
+    description: 'A beautiful handmade evening gown made for weddings, galas, and special dinners. Made with high quality smooth silk, tailored to fit your body shape comfortably.',
     basePriceUSD: 850,
     priceRange: '₦80,000 - ₦150,000',
     craftingTime: '5 - 7 Days',
@@ -32,7 +32,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
     id: 'air-luxe-02',
     title: 'Bespoke Monarch Double-Breasted Suit Set',
-    category: 'Suits & Sets',
+    category: 'Two piece wear',
     tagline: 'Neatly tailored two-piece suit with stylish gold buttons.',
     description: 'A modern, clean suit set made for work events, celebrations, or formal outings. Includes a fitted jacket and matching high-waisted trousers.',
     basePriceUSD: 720,
@@ -60,7 +60,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
     id: 'air-luxe-03',
     title: 'Celeste Silk Two-Piece Wrap Set',
-    category: 'Silk & Loungewear',
+    category: 'Two piece wear',
     tagline: 'Soft, easy-going silk set with wrap top and wide pants.',
     description: 'An easy-to-wear luxury silk outfit featuring a wrap-tie top and relaxed wide-leg pants. Perfect for parties, dinners, and vacation wear.',
     basePriceUSD: 520,
@@ -88,7 +88,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
     id: 'air-luxe-04',
     title: 'Embroidered Velvet Bubu Kaftan',
-    category: 'Special Occasion',
+    category: 'Free wear',
     tagline: 'Elegant long kaftan with detailed gold thread work on collar.',
     description: 'A traditional and modern mix kaftan made with rich velvet fabric and detailed gold embroidery along the neck and sleeves.',
     basePriceUSD: 950,
@@ -114,7 +114,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
     id: 'air-luxe-05',
     title: 'Tailored Luxury Trench Jacket',
-    category: 'Jackets & Coats',
+    category: 'Free wear',
     tagline: 'Smart lightweight jacket with waist belt and clean collar.',
     description: 'A stylish layered jacket crafted to wear over dresses or pants. Features double front buttons and a cinched waist belt.',
     basePriceUSD: 780,
@@ -140,7 +140,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
     id: 'air-luxe-06',
     title: 'Aphrodite Corseted Mermaid Fit Gown',
-    category: 'Dresses & Gowns',
+    category: 'Corset',
     tagline: 'Figure-hugging dress with corset top and flared bottom.',
     description: 'A stunning figure-shaping dress designed to give a lovely hourglass look. Features structured waist boning and a dramatic flared bottom hem.',
     basePriceUSD: 1100,
@@ -167,7 +167,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
 
 export const ATELIER_INFO = {
   name: "Air_Luxe",
-  subBrand: "Gretel's Plug",
+  subBrand: "Gretel's Plug EST 2020",
   tagline: "Custom Made Outfits Tailored to Fit You Perfectly.",
   whatsappNumber: "09161273360",
   whatsappDisplay: "09161273360",

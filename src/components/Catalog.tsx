@@ -14,11 +14,10 @@ interface CatalogProps {
 
 const CATEGORIES: Category[] = [
   'All',
-  'Dresses & Gowns',
-  'Suits & Sets',
-  'Silk & Loungewear',
-  'Special Occasion',
-  'Jackets & Coats'
+  'Gowns',
+  'Two piece wear',
+  'Corset',
+  'Free wear'
 ];
 
 export const Catalog: React.FC<CatalogProps> = ({
@@ -78,12 +77,12 @@ export const Catalog: React.FC<CatalogProps> = ({
       {/* Controls Bar */}
       <div className="space-y-6 mb-12">
         {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none justify-start md:justify-center">
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none justify-start md:justify-center">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => onCategoryChange(cat)}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition duration-300 ${
+              className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider whitespace-nowrap transition duration-300 ${
                 selectedCategory === cat
                   ? 'bg-charcoal text-cream-100 shadow-md border border-gold/40'
                   : 'bg-cream-200 hover:bg-silk-taupe text-charcoal border border-silk-taupe'
@@ -101,7 +100,7 @@ export const Catalog: React.FC<CatalogProps> = ({
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal/50" />
             <input
               type="text"
-              placeholder="Search gown, suit, silk dress..."
+              placeholder="Search gown, corset, two piece wear..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-cream-100 border border-silk-taupe pl-10 pr-4 py-2 rounded-xl text-xs font-medium text-charcoal placeholder:text-charcoal/40 focus:outline-none focus:border-gold"

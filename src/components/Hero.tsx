@@ -29,14 +29,14 @@ export const Hero: React.FC<HeroProps> = ({ whatsappNumber, onOpenCustomDesignMo
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-cream-100 shadow-2xl">
               <img 
                 src="/logo.jpg" 
-                alt="Air_Luxe Gretel's Plug Logo" 
+                alt="Air_Luxe Gretel's Plug EST 2020 Logo" 
                 className="w-full h-full object-cover object-center scale-105 transform hover:scale-110 transition duration-700" 
               />
             </div>
           </div>
           <div className="flex items-center gap-2 text-gold font-bold tracking-[0.25em] text-xs uppercase my-1">
             <span className="h-[1px] w-8 bg-gold/40"></span>
-            <span>GRETEL'S PLUG</span>
+            <span>GRETEL'S PLUG EST 2020</span>
             <span className="h-[1px] w-8 bg-gold/40"></span>
           </div>
         </div>

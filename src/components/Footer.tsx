@@ -43,19 +43,22 @@ export const Footer: React.FC<FooterProps> = ({
 
           {/* Links */}
           <div className="space-y-3">
-            <h4 className="font-serif text-lg font-bold text-gold uppercase tracking-wider">Quick Links</h4>
+            <h4 className="font-serif text-lg font-bold text-gold uppercase tracking-wider">Categories</h4>
             <ul className="space-y-2 text-xs text-cream-100/75">
               <li>
-                <a href="#catalog" className="hover:text-gold transition">Dresses & Gowns</a>
+                <a href="#catalog" className="hover:text-gold transition">Gowns</a>
               </li>
               <li>
-                <a href="#catalog" className="hover:text-gold transition">Suits & Two-Piece Sets</a>
+                <a href="#catalog" className="hover:text-gold transition">Two piece wear</a>
               </li>
               <li>
-                <a href="#catalog" className="hover:text-gold transition">Silk & Loungewear</a>
+                <a href="#catalog" className="hover:text-gold transition">Corset</a>
               </li>
               <li>
-                <button onClick={onOpenCustomDesignModal} className="hover:text-gold transition text-gold font-bold flex items-center gap-1">
+                <a href="#catalog" className="hover:text-gold transition">Free wear</a>
+              </li>
+              <li>
+                <button onClick={onOpenCustomDesignModal} className="hover:text-gold transition text-gold font-bold flex items-center gap-1 mt-1">
                   <Upload className="w-3 h-3" /> Send Your Own Design Photo
                 </button>
               </li>

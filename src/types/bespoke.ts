@@ -1,10 +1,9 @@
 export type Category = 
   | 'All' 
-  | 'Dresses & Gowns' 
-  | 'Suits & Sets' 
-  | 'Silk & Loungewear' 
-  | 'Special Occasion' 
-  | 'Jackets & Coats';
+  | 'Gowns' 
+  | 'Two piece wear' 
+  | 'Corset' 
+  | 'Free wear';
 
 export interface FabricOption {
   id: string;
