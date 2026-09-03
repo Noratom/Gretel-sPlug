@@ -117,7 +117,7 @@ export const CustomDesignModal: React.FC<CustomDesignModalProps> = ({
               <h3 className="font-serif text-lg font-bold text-cream-100">
                 Send Your Own Outfit Design
               </h3>
-              <p className="text-[10px] text-gold tracking-widest uppercase">Air_Luxe • Gretel's Plug Custom Studio</p>
+              <p className="text-[10px] text-gold tracking-widest uppercase">Air_Luxe • Gretel's Plug EST 2020 • Custom Studio</p>
             </div>
           </div>
 

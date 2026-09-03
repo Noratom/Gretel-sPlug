@@ -15,12 +15,12 @@ export const CraftsmanshipProcess: React.FC<CraftsmanshipProcessProps> = ({
     {
       icon: <Sparkles className="w-6 h-6 text-gold" />,
       title: "1. Pick an Outfit or Send a Photo",
-      subtitle: "Choose an outfit from our website catalog OR upload a picture of a design you found online that you want us to make."
+      subtitle: "Choose an outfit from our catalog OR upload a picture of a design you found online that you want us to make."
     },
     {
       icon: <Ruler className="w-6 h-6 text-gold" />,
       title: "2. Choose Fabric & Sizes",
-      subtitle: "Select your favorite fabric color and send us your body measurements or standard dress size (XS to XXL)."
+      subtitle: "Select your favorite fabric color and send us your body measurements or standard dress size (XS to 5XL)."
     },
     {
       icon: <Scissors className="w-6 h-6 text-gold" />,
@@ -29,8 +29,8 @@ export const CraftsmanshipProcess: React.FC<CraftsmanshipProcessProps> = ({
     },
     {
       icon: <CheckCircle2 className="w-6 h-6 text-gold" />,
-      title: "4. Fast Delivery & Fitting",
-      subtitle: "We deliver your ready outfit directly to your doorstep. If you need any small adjustments, we are always available on WhatsApp!"
+      title: "4. Fast Delivery Even Without Fitting",
+      subtitle: "We deliver your ready outfit directly to your doorstep with exact accuracy so it fits perfectly even without physical fitting sessions!"
     }
   ];
 
@@ -42,7 +42,7 @@ export const CraftsmanshipProcess: React.FC<CraftsmanshipProcessProps> = ({
             EASY 4-STEP PROCESS
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-charcoal">
-            How Gretel's Plug Makes Your Custom Outfit
+            How Air_Luxe (Gretel's Plug) Makes Your Outfit
           </h2>
           <p className="text-charcoal/70 text-sm sm:text-base max-w-xl mx-auto font-medium">
             Ordering a custom outfit is super simple and fast. Here is how it works:
@@ -69,7 +69,7 @@ export const CraftsmanshipProcess: React.FC<CraftsmanshipProcessProps> = ({
 
               <div className="mt-6 pt-4 border-t border-silk-taupe/40 flex items-center justify-between text-[11px] font-bold text-gold uppercase tracking-wider">
                 <span>Step 0{idx + 1}</span>
-                <span className="opacity-40 font-mono">GRETEL'S PLUG</span>
+                <span className="opacity-40 font-mono">AIR_LUXE</span>
               </div>
             </div>
           ))}

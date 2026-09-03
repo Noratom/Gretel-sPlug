@@ -26,8 +26,8 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
               <div>
                 <span className="font-serif text-3xl font-bold text-cream-100 block">Air_Luxe</span>
-                <span className="text-[10px] text-gold uppercase tracking-[0.2em] font-bold">
-                  Gretel's Plug • Custom Studio
+                <span className="text-[10px] text-gold uppercase tracking-[0.18em] font-bold">
+                  Gretel's Plug EST 2020 • Custom Studio
                 </span>
               </div>
             </div>
@@ -37,7 +37,7 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
 
             <p className="text-xs text-cream-100/70 leading-relaxed max-w-md font-light">
-              Air_Luxe by Gretel's Plug specializes in making custom dresses, suits, kaftans, and luxury outfits tailored to your exact measurements and style preference.
+              Air_Luxe by Gretel's Plug EST 2020 specializes in making custom dresses, suits, kaftans, and luxury outfits tailored to your exact measurements and style preference.
             </p>
           </div>
 
@@ -99,7 +99,7 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream-100/40">
-          <p>© {new Date().getFullYear()} Air_Luxe (Gretel's Plug). All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} Air_Luxe (Gretel's Plug EST 2020). All Rights Reserved.</p>
           <div className="flex items-center gap-2 text-gold text-[11px] font-mono">
             <Sparkles className="w-3 h-3" />
             <span>CUSTOM MADE OUTFITS TAILORED TO FIT YOU PERFECTLY</span>

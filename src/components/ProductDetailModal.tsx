@@ -118,7 +118,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </button>
 
               <p className="text-[10px] text-center text-charcoal/50 uppercase tracking-widest">
-                Gretel's Plug Custom Studio
+                Air_Luxe • Gretel's Plug EST 2020 • Custom Studio
               </p>
             </div>
           </div>
