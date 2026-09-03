@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { BespokeDesign, Category, FabricOption } from '../types/bespoke';
-import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon, Database, Layers, Palette, Copy, CheckCircle2 } from 'lucide-react';
+import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon, Database, Layers, Copy, CheckCircle2 } from 'lucide-react';
 import { compressImageFile } from '../utils/imageCompressor';
 import { getSupabaseCredentials, saveSupabaseCredentials, syncCatalogDesigns } from '../services/db';
 
@@ -34,7 +34,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [editingDesign, setEditingDesign] = useState<BespokeDesign | null>(null);
   const [phoneInput, setPhoneInput] = useState(whatsappNumber);
   const [pinInput, setPinInput] = useState(adminPin);
-  const [isUploading, setIsUploading] = useState(false);
+  const [uploadingSlotIndex, setUploadingSlotIndex] = useState<number | null>(null);
   const [copiedSql, setCopiedSql] = useState(false);
 
   // Supabase Credentials State
@@ -42,7 +42,9 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [dbUrl, setDbUrl] = useState(initialCreds.url);
   const [dbKey, setDbKey] = useState(initialCreds.key);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef1 = useRef<HTMLInputElement>(null);
+  const fileInputRef2 = useRef<HTMLInputElement>(null);
+  const fileInputRef3 = useRef<HTMLInputElement>(null);
 
   // Form State for Add/Edit
   const [formData, setFormData] = useState<Partial<BespokeDesign>>({
@@ -53,6 +55,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     priceRange: '₦60,000 - ₦100,000',
     craftingTime: '5 - 7 Days',
     mainImage: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop',
+    galleryImages: ['https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop'],
     isFeatured: false,
     isNewArrival: true,
     fabrics: [
@@ -61,24 +64,55 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     details: ['Hand-fitted waist', 'Tailored to your exact measurements']
   });
 
-  const handleImageFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSlotImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, slotIndex: number) => {
     const file = e.target.files?.[0];
     if (file) {
       try {
-        setIsUploading(true);
+        setUploadingSlotIndex(slotIndex);
         const compressedBase64 = await compressImageFile(file);
-        setFormData(prev => ({
-          ...prev,
-          mainImage: compressedBase64,
-          galleryImages: [compressedBase64, ...(prev.galleryImages || [])]
-        }));
+        
+        setFormData(prev => {
+          const currentList = [...(prev.galleryImages || [])];
+          currentList[slotIndex] = compressedBase64;
+          const updatedList = currentList.filter(Boolean).slice(0, 3);
+          return {
+            ...prev,
+            mainImage: slotIndex === 0 ? compressedBase64 : (prev.mainImage || compressedBase64),
+            galleryImages: updatedList
+          };
+        });
       } catch (err) {
         console.error('Failed to process image file', err);
         alert('Could not load image file. Please try another photo.');
       } finally {
-        setIsUploading(false);
+        setUploadingSlotIndex(null);
       }
     }
+  };
+
+  const handleUpdateImageUrl = (slotIndex: number, url: string) => {
+    setFormData(prev => {
+      const currentList = [...(prev.galleryImages || [])];
+      currentList[slotIndex] = url;
+      const updatedList = currentList.filter(Boolean).slice(0, 3);
+      return {
+        ...prev,
+        mainImage: slotIndex === 0 ? url : (prev.mainImage || url),
+        galleryImages: updatedList
+      };
+    });
+  };
+
+  const handleRemoveImageSlot = (slotIndex: number) => {
+    setFormData(prev => {
+      const currentList = [...(prev.galleryImages || [])];
+      currentList.splice(slotIndex, 1);
+      return {
+        ...prev,
+        mainImage: currentList[0] || '',
+        galleryImages: currentList
+      };
+    });
   };
 
   const handleStartNew = () => {
@@ -151,9 +185,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.mainImage) {
-      alert('Please enter an outfit title and upload a photo.');
+      alert('Please enter an outfit title and upload at least 1 photo.');
       return;
     }
+
+    const gallery = (formData.galleryImages || []).filter(Boolean).slice(0, 3);
+    const mainImg = gallery[0] || formData.mainImage || '';
 
     const newDesignItem: BespokeDesign = {
       id: formData.id || `gretel-${Date.now()}`,
@@ -164,8 +201,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       basePriceUSD: 500,
       priceRange: formData.priceRange || '₦50,000 - ₦100,000',
       craftingTime: formData.craftingTime || '5 - 7 Days',
-      mainImage: formData.mainImage || '',
-      galleryImages: formData.galleryImages || [formData.mainImage || ''],
+      mainImage: mainImg,
+      galleryImages: gallery.length > 0 ? gallery : [mainImg],
       fabrics: formData.fabrics || [],
       isFeatured: formData.isFeatured || false,
       isNewArrival: formData.isNewArrival || false,
@@ -257,14 +294,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
           </div>
         </div>
 
-        {/* Hidden File Picker Input */}
-        <input
-          type="file"
-          ref={fileInputRef}
-          accept="image/*"
-          onChange={handleImageFileUpload}
-          className="hidden"
-        />
+        {/* Hidden File Picker Inputs for 3 Photo Slots */}
+        <input type="file" ref={fileInputRef1} accept="image/*" onChange={(e) => handleSlotImageUpload(e, 0)} className="hidden" />
+        <input type="file" ref={fileInputRef2} accept="image/*" onChange={(e) => handleSlotImageUpload(e, 1)} className="hidden" />
+        <input type="file" ref={fileInputRef3} accept="image/*" onChange={(e) => handleSlotImageUpload(e, 2)} className="hidden" />
 
         {/* Modal Content Body */}
         {activeTab === 'settings' ? (
@@ -312,10 +345,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               <div className="p-4 bg-gold/15 rounded-2xl border border-gold/40 text-xs space-y-2">
                 <h5 className="font-bold text-gold-dark flex items-center gap-1.5 text-sm">
                   <Database className="w-4 h-4" />
-                  How to make products show up on your phone & all devices:
+                  Multi-Device Cloud Database Sync (Connected):
                 </h5>
                 <p className="text-charcoal/80 leading-relaxed">
-                  When you add a product on your computer, connecting a free **Supabase Cloud Database** ensures your phone and every customer's phone worldwide instantly shows the new products in real-time!
+                  Your Supabase Cloud Database is active. Any outfit or photo added on any device automatically syncs live to all devices worldwide!
                 </p>
               </div>
 
@@ -324,7 +357,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 <label className="text-xs font-extrabold uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Database className="w-4 h-4 text-gold" />
-                    Supabase Free Database Setup (1-Minute)
+                    Supabase Cloud Database Settings
                   </span>
                   <button
                     type="button"
@@ -497,6 +530,74 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </div>
               </div>
 
+              {/* 3 Dedicated Image Upload Slots (Automated Slideshow Carousel) */}
+              <div className="space-y-3 p-4 bg-cream-200/60 rounded-2xl border border-gold/30">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
+                    <ImageIcon className="w-4 h-4 text-gold" />
+                    Outfit Photos (Up to 3 Photos - Auto Slideshow)
+                  </label>
+                  <span className="text-[10px] text-gold-dark font-bold">Rotates Every 3.5s</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[0, 1, 2].map((slotIndex) => {
+                    const galleryList = formData.galleryImages || [];
+                    const imgUrl = slotIndex === 0 ? (formData.mainImage || galleryList[0] || '') : (galleryList[slotIndex] || '');
+                    const isUploadingThis = uploadingSlotIndex === slotIndex;
+                    const fileInputRefs = [fileInputRef1, fileInputRef2, fileInputRef3];
+
+                    return (
+                      <div key={slotIndex} className="p-3 bg-cream-100 rounded-xl border border-silk-taupe space-y-2 flex flex-col justify-between">
+                        <div className="flex items-center justify-between text-[11px] font-bold text-gold-dark">
+                          <span>Photo #{slotIndex + 1} {slotIndex === 0 ? '(Main)' : ''}</span>
+                          {imgUrl && (
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveImageSlot(slotIndex)}
+                              className="text-red-600 hover:underline flex items-center gap-0.5"
+                            >
+                              <Trash2 className="w-3 h-3" /> Clear
+                            </button>
+                          )}
+                        </div>
+
+                        {imgUrl ? (
+                          <div className="aspect-[3/4] rounded-lg overflow-hidden border border-gold/40 shadow-xs relative">
+                            <img src={imgUrl} alt={`Photo ${slotIndex + 1}`} className="w-full h-full object-cover" />
+                          </div>
+                        ) : (
+                          <div className="aspect-[3/4] rounded-lg border-2 border-dashed border-silk-taupe flex flex-col items-center justify-center p-2 text-center text-charcoal/50 bg-cream-200/50">
+                            <ImageIcon className="w-6 h-6 mb-1 text-gold/60" />
+                            <span className="text-[10px] font-semibold">Slot #{slotIndex + 1} Empty</span>
+                          </div>
+                        )}
+
+                        <div className="space-y-1.5 pt-1">
+                          <button
+                            type="button"
+                            disabled={isUploadingThis}
+                            onClick={() => fileInputRefs[slotIndex].current?.click()}
+                            className="w-full bg-gold hover:bg-gold-dark text-charcoal py-1.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition flex items-center justify-center gap-1 shadow-xs"
+                          >
+                            <Upload className="w-3 h-3" />
+                            <span>{isUploadingThis ? 'Compressing...' : 'Upload Photo'}</span>
+                          </button>
+
+                          <input
+                            type="text"
+                            placeholder="or paste URL..."
+                            value={imgUrl}
+                            onChange={(e) => handleUpdateImageUrl(slotIndex, e.target.value)}
+                            className="w-full bg-cream-200 border border-silk-taupe px-2 py-1 rounded-lg text-[10px] font-medium"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Fabric, Material & Color Variations Manager */}
               <div className="space-y-3 p-4 bg-cream-200/60 rounded-2xl border border-gold/30">
                 <div className="flex items-center justify-between">
@@ -576,55 +677,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Photo Upload Section */}
-              <div className="space-y-2 p-4 bg-cream-200/60 rounded-2xl border border-gold/30">
-                <label className="text-xs font-extrabold uppercase tracking-wider flex items-center justify-between">
-                  <span className="flex items-center gap-1.5">
-                    <ImageIcon className="w-4 h-4 text-gold" />
-                    Outfit Photo (Gallery Upload or Link)
-                  </span>
-                  {formData.mainImage && (
-                    <span className="text-[10px] text-green-700 font-bold">Photo Ready</span>
-                  )}
-                </label>
-
-                <div className="flex flex-col sm:flex-row items-center gap-3">
-                  <button
-                    type="button"
-                    disabled={isUploading}
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-charcoal px-4 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition shadow-sm"
-                  >
-                    <Upload className="w-4 h-4" />
-                    <span>{isUploading ? 'Compressing...' : 'Upload Photo from Gallery'}</span>
-                  </button>
-
-                  <span className="text-xs font-bold text-charcoal/40">OR</span>
-
-                  <input
-                    type="text"
-                    placeholder="Paste image web URL..."
-                    value={formData.mainImage || ''}
-                    onChange={(e) => setFormData(prev => ({ ...prev, mainImage: e.target.value }))}
-                    className="flex-1 w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
-                  />
-                </div>
-
-                {formData.mainImage && (
-                  <div className="pt-2 flex items-center gap-3">
-                    <img
-                      src={formData.mainImage}
-                      alt="Preview"
-                      className="w-16 h-20 object-cover rounded-xl border-2 border-gold shadow-md"
-                    />
-                    <div className="text-xs text-charcoal/70 space-y-0.5">
-                      <p className="font-bold text-charcoal">Photo Preview Ready</p>
-                      <p className="text-[10px] text-gold-dark">Will display across Gretel's Plug website</p>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Ready In & Details */}

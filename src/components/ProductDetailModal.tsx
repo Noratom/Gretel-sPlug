@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BespokeDesign } from '../types/bespoke';
 import { X, Clock, CheckCircle2, Scissors } from 'lucide-react';
 
@@ -15,7 +15,22 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 }) => {
   if (!design) return null;
 
-  const [activeImage, setActiveImage] = useState(design.mainImage);
+  const images = design.galleryImages && design.galleryImages.length > 0
+    ? design.galleryImages.slice(0, 3)
+    : [design.mainImage];
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  // Auto-slideshow timer every 3.5 seconds
+  useEffect(() => {
+    if (images.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveImageIndex((prev) => (prev + 1) % images.length);
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn text-charcoal">
@@ -30,28 +45,43 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
         {/* Modal Content Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 overflow-y-auto max-h-[92vh]">
-          {/* Left: Gallery View */}
+          {/* Left: Gallery View with Auto-Slideshow */}
           <div className="p-6 bg-cream-200/50 flex flex-col items-center justify-between gap-4">
             <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden border border-gold/30 shadow-md relative bg-cream-100">
               <img
-                src={activeImage}
+                src={images[activeImageIndex] || design.mainImage}
                 alt={design.title}
-                className="w-full h-full object-cover transition duration-500"
+                className="w-full h-full object-cover transition duration-700 ease-out"
               />
+
+              {/* Dot Indicators */}
+              {images.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-charcoal/60 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
+                  {images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        idx === activeImageIndex ? 'w-6 bg-gold' : 'w-2 bg-white/60 hover:bg-white'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Thumbnail Switcher */}
-            {design.galleryImages.length > 1 && (
+            {images.length > 1 && (
               <div className="flex items-center gap-3">
-                {design.galleryImages.map((img, idx) => (
+                {images.map((img, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setActiveImage(img)}
+                    onClick={() => setActiveImageIndex(idx)}
                     className={`w-16 h-20 rounded-xl overflow-hidden border-2 transition ${
-                      activeImage === img ? 'border-gold scale-105 shadow-sm' : 'border-silk-taupe opacity-70 hover:opacity-100'
+                      activeImageIndex === idx ? 'border-gold scale-105 shadow-sm ring-2 ring-gold/30' : 'border-silk-taupe opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                    <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
