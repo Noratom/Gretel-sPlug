@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { BespokeDesign, Category } from '../types/bespoke';
-import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon, Database, CheckCircle2 } from 'lucide-react';
+import { BespokeDesign, Category, FabricOption } from '../types/bespoke';
+import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon, Database, Layers, Palette, Copy, CheckCircle2 } from 'lucide-react';
 import { compressImageFile } from '../utils/imageCompressor';
-import { getSupabaseCredentials, saveSupabaseCredentials } from '../services/db';
+import { getSupabaseCredentials, saveSupabaseCredentials, syncCatalogDesigns } from '../services/db';
 
 interface AdminModalProps {
   designs: BespokeDesign[];
@@ -35,6 +35,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [phoneInput, setPhoneInput] = useState(whatsappNumber);
   const [pinInput, setPinInput] = useState(adminPin);
   const [isUploading, setIsUploading] = useState(false);
+  const [copiedSql, setCopiedSql] = useState(false);
 
   // Supabase Credentials State
   const initialCreds = getSupabaseCredentials();
@@ -55,7 +56,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     isFeatured: false,
     isNewArrival: true,
     fabrics: [
-      { id: 'f_new_1', name: 'Silk Satin', texture: 'Smooth sheen', colorHex: '#C5A059' }
+      { id: `f_init_1`, name: 'Silk Satin', texture: 'Smooth Luster', colorHex: '#C5A059' }
     ],
     details: ['Hand-fitted waist', 'Tailored to your exact measurements']
   });
@@ -95,7 +96,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       isFeatured: false,
       isNewArrival: true,
       fabrics: [
-        { id: `f_${Date.now()}`, name: 'Silk Satin', texture: 'Smooth sheen', colorHex: '#C5A059' }
+        { id: `f_${Date.now()}_1`, name: 'Silk Satin', texture: 'Smooth Luster', colorHex: '#C5A059' }
       ],
       details: ['Hand-fitted waist', 'Tailored to your exact measurements']
     });
@@ -114,6 +115,37 @@ export const AdminModal: React.FC<AdminModalProps> = ({
         setEditingDesign(null);
       }
     }
+  };
+
+  // Dynamic Fabric / Material Variation Handlers
+  const handleAddFabricVariation = () => {
+    const newFabricRow: FabricOption = {
+      id: `f_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+      name: 'New Velvet / Silk',
+      texture: 'Soft Touch',
+      colorHex: '#C5A059'
+    };
+    setFormData(prev => ({
+      ...prev,
+      fabrics: [...(prev.fabrics || []), newFabricRow]
+    }));
+  };
+
+  const handleUpdateFabricVariation = (id: string, field: keyof FabricOption, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      fabrics: (prev.fabrics || []).map(f => (f.id === id ? { ...f, [field]: value } : f))
+    }));
+  };
+
+  const handleRemoveFabricVariation = (id: string) => {
+    setFormData(prev => {
+      const updated = (prev.fabrics || []).filter(f => f.id !== id);
+      return {
+        ...prev,
+        fabrics: updated.length > 0 ? updated : [{ id: `f_${Date.now()}`, name: 'Standard Fabric', texture: 'Custom', colorHex: '#000000' }]
+      };
+    });
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -157,7 +189,32 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     onSaveWhatsappNumber(phoneInput);
     onSaveAdminPin(pinInput);
     saveSupabaseCredentials(dbUrl, dbKey);
-    alert('WhatsApp contact number, passcode, and cloud database settings saved!');
+    syncCatalogDesigns(designs);
+    alert('WhatsApp number, passcode, and cloud database settings saved!');
+  };
+
+  const sqlSetupScript = `create table if not exists outfits (
+  id text primary key,
+  title text not null,
+  category text,
+  tagline text,
+  description text,
+  base_price numeric,
+  price_range text,
+  crafting_time text,
+  main_image text,
+  gallery_images jsonb,
+  fabrics jsonb,
+  is_featured boolean default false,
+  is_new_arrival boolean default false,
+  details jsonb,
+  created_at timestamp with time zone default timezone('utc'::text, now())
+);`;
+
+  const copySqlScript = () => {
+    navigator.clipboard.writeText(sqlSetupScript);
+    setCopiedSql(true);
+    setTimeout(() => setCopiedSql(false), 3000);
   };
 
   return (
@@ -216,9 +273,9 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center mx-auto text-gold">
                 <Settings className="w-6 h-6" />
               </div>
-              <h4 className="font-serif text-2xl font-bold">Atelier Settings & Cloud Database</h4>
+              <h4 className="font-serif text-2xl font-bold">Atelier Settings & Cloud Sync</h4>
               <p className="text-xs text-charcoal/70">
-                Configure your official WhatsApp contact number, admin passcode, and real-time cloud database.
+                Configure your official WhatsApp contact number, passcode, and multi-device real-time sync.
               </p>
             </div>
 
@@ -230,7 +287,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. 09161273360"
+                  placeholder="e.g. 08088517919"
                   value={phoneInput}
                   onChange={(e) => setPhoneInput(e.target.value)}
                   className="w-full bg-cream-200 border border-silk-taupe px-4 py-3 rounded-xl text-sm font-semibold focus:outline-none focus:border-gold"
@@ -251,19 +308,33 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 />
               </div>
 
-              {/* Cloud Database Section (Supabase) */}
+              {/* Real-time Multi-Device Sync Explanation Banner */}
+              <div className="p-4 bg-gold/15 rounded-2xl border border-gold/40 text-xs space-y-2">
+                <h5 className="font-bold text-gold-dark flex items-center gap-1.5 text-sm">
+                  <Database className="w-4 h-4" />
+                  How to make products show up on your phone & all devices:
+                </h5>
+                <p className="text-charcoal/80 leading-relaxed">
+                  When you add a product on your computer, connecting a free **Supabase Cloud Database** ensures your phone and every customer's phone worldwide instantly shows the new products in real-time!
+                </p>
+              </div>
+
+              {/* Cloud Database Credentials (Supabase) */}
               <div className="space-y-3 p-5 bg-cream-200/70 rounded-2xl border border-gold/40">
                 <label className="text-xs font-extrabold uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Database className="w-4 h-4 text-gold" />
-                    Cloud Real-Time Sync (Free Supabase DB)
+                    Supabase Free Database Setup (1-Minute)
                   </span>
-                  <span className="text-[10px] text-gold-dark font-bold">Optional</span>
+                  <button
+                    type="button"
+                    onClick={copySqlScript}
+                    className="text-[10px] bg-charcoal text-cream-100 hover:bg-gold hover:text-charcoal px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition"
+                  >
+                    {copiedSql ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3 text-gold" />}
+                    <span>{copiedSql ? 'SQL Table Code Copied!' : 'Copy SQL Table Script'}</span>
+                  </button>
                 </label>
-
-                <p className="text-xs text-charcoal/75 leading-relaxed">
-                  Connecting Supabase allows any outfit you add or edit on your phone to update live for <strong>all customers worldwide</strong> on their own devices.
-                </p>
 
                 <div className="space-y-3">
                   <div>
@@ -296,7 +367,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               className="w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-charcoal py-3.5 rounded-full text-xs font-extrabold uppercase tracking-[0.2em] shadow-md transition"
             >
               <Save className="w-4 h-4" />
-              Save Settings & Credentials
+              Save Settings & Sync Devices
             </button>
           </form>
         ) : (
@@ -423,6 +494,87 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     onChange={(e) => setFormData(prev => ({ ...prev, priceRange: e.target.value }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none"
                   />
+                </div>
+              </div>
+
+              {/* Fabric, Material & Color Variations Manager */}
+              <div className="space-y-3 p-4 bg-cream-200/60 rounded-2xl border border-gold/30">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
+                    <Layers className="w-4 h-4 text-gold" />
+                    Fabric, Material & Color Variations
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={handleAddFabricVariation}
+                    className="bg-charcoal text-cream-100 hover:bg-gold hover:text-charcoal px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider transition flex items-center gap-1"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    Add Variation
+                  </button>
+                </div>
+
+                <div className="space-y-2.5">
+                  {(formData.fabrics || []).map((fab, idx) => (
+                    <div key={fab.id} className="p-3 bg-cream-100 rounded-xl border border-silk-taupe space-y-2">
+                      <div className="flex items-center justify-between text-[11px] font-bold text-gold-dark">
+                        <span>Variation #{idx + 1}</span>
+                        {(formData.fabrics || []).length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFabricVariation(fab.id)}
+                            className="text-red-600 hover:underline flex items-center gap-1"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" /> Remove
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div>
+                          <label className="text-[10px] font-bold uppercase block mb-0.5">Fabric / Material Name</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Silk Satin, Velvet, Cotton"
+                            value={fab.name}
+                            onChange={(e) => handleUpdateFabricVariation(fab.id, 'name', e.target.value)}
+                            className="w-full bg-cream-200 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs font-medium"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] font-bold uppercase block mb-0.5">Texture / Feel Note</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Smooth Luster, Rich Heavy Feel"
+                            value={fab.texture}
+                            onChange={(e) => handleUpdateFabricVariation(fab.id, 'texture', e.target.value)}
+                            className="w-full bg-cream-200 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs font-medium"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] font-bold uppercase block mb-0.5">Swatches / Color Hex</label>
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="color"
+                              value={fab.colorHex}
+                              onChange={(e) => handleUpdateFabricVariation(fab.id, 'colorHex', e.target.value)}
+                              className="w-8 h-8 rounded-lg border border-silk-taupe cursor-pointer shrink-0"
+                            />
+                            <input
+                              type="text"
+                              placeholder="#C5A059"
+                              value={fab.colorHex}
+                              onChange={(e) => handleUpdateFabricVariation(fab.id, 'colorHex', e.target.value)}
+                              className="w-full bg-cream-200 border border-silk-taupe px-2 py-1.5 rounded-lg text-xs font-mono"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
