@@ -2,7 +2,7 @@ import { BespokeDesign } from '../types/bespoke';
 
 export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
-    id: 'gretel-01',
+    id: 'air-luxe-01',
     title: 'The Aurelia Silk Evening Dress',
     category: 'Dresses & Gowns',
     tagline: 'Fitted top bodice with a long flowing silk skirt.',
@@ -30,8 +30,8 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
     ]
   },
   {
-    id: 'gretel-02',
-    title: 'Bespoke Double-Breasted Suit Set',
+    id: 'air-luxe-02',
+    title: 'Bespoke Monarch Double-Breasted Suit Set',
     category: 'Suits & Sets',
     tagline: 'Neatly tailored two-piece suit with stylish gold buttons.',
     description: 'A modern, clean suit set made for work events, celebrations, or formal outings. Includes a fitted jacket and matching high-waisted trousers.',
@@ -58,7 +58,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
     ]
   },
   {
-    id: 'gretel-03',
+    id: 'air-luxe-03',
     title: 'Celeste Silk Two-Piece Wrap Set',
     category: 'Silk & Loungewear',
     tagline: 'Soft, easy-going silk set with wrap top and wide pants.',
@@ -86,7 +86,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
     ]
   },
   {
-    id: 'gretel-04',
+    id: 'air-luxe-04',
     title: 'Embroidered Velvet Bubu Kaftan',
     category: 'Special Occasion',
     tagline: 'Elegant long kaftan with detailed gold thread work on collar.',
@@ -112,7 +112,7 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
     ]
   },
   {
-    id: 'gretel-05',
+    id: 'air-luxe-05',
     title: 'Tailored Luxury Trench Jacket',
     category: 'Jackets & Coats',
     tagline: 'Smart lightweight jacket with waist belt and clean collar.',
@@ -138,8 +138,8 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
     ]
   },
   {
-    id: 'gretel-06',
-    title: 'Corseted Mermaid Fit Gown',
+    id: 'air-luxe-06',
+    title: 'Aphrodite Corseted Mermaid Fit Gown',
     category: 'Dresses & Gowns',
     tagline: 'Figure-hugging dress with corset top and flared bottom.',
     description: 'A stunning figure-shaping dress designed to give a lovely hourglass look. Features structured waist boning and a dramatic flared bottom hem.',
@@ -166,11 +166,12 @@ export const BESPOKE_DESIGNS: BespokeDesign[] = [
 ];
 
 export const ATELIER_INFO = {
-  name: "Gretel's Plug",
+  name: "Air_Luxe",
+  subBrand: "Gretel's Plug",
   tagline: "Custom Made Outfits Tailored to Fit You Perfectly.",
   whatsappNumber: "09161273360",
   whatsappDisplay: "09161273360",
-  instagram: "@gretelsplug",
-  email: "orders@gretelsplug.com",
+  instagram: "@air_luxe_gretelsplug",
+  email: "orders@airluxeatelier.com",
   location: "Custom Fashion Studio & Fitting Atelier",
 };

@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Announcement Bar */}
       <div className="bg-charcoal text-silk-cream text-[11px] md:text-xs py-1.5 px-4 text-center tracking-[0.15em] uppercase font-semibold flex items-center justify-center gap-2">
         <Sparkles className="w-3.5 h-3.5 text-gold animate-pulse" />
-        <span>GRETEL'S PLUG • {ATELIER_INFO.tagline}</span>
+        <span>AIR_LUXE • GRETEL'S PLUG • {ATELIER_INFO.tagline}</span>
         <Sparkles className="w-3.5 h-3.5 text-gold animate-pulse" />
       </div>
 
@@ -57,16 +57,16 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border border-gold/40 shadow-inner group-hover:border-gold transition duration-300">
             <img 
               src="/logo.jpg" 
-              alt="Gretel's Plug Logo" 
+              alt="Air_Luxe Gretel's Plug Logo" 
               className="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500" 
             />
           </div>
           <div className="flex flex-col">
             <span className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-charcoal group-hover:text-gold transition duration-300">
-              Gretel's Plug
+              Air_Luxe
             </span>
             <span className="text-[10px] uppercase tracking-[0.2em] text-gold font-bold -mt-1">
-              Custom Outfit Studio
+              Gretel's Plug • Custom Studio
             </span>
           </div>
         </a>

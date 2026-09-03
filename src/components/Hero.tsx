@@ -1,7 +1,6 @@
 import React from 'react';
 import { MessageCircle, Scissors, ChevronDown, Sparkles, Upload } from 'lucide-react';
 import { ATELIER_INFO } from '../data/designs';
-import { openWhatsAppGeneralInquiry } from '../utils/whatsapp';
 
 interface HeroProps {
   whatsappNumber: string;
@@ -30,17 +29,22 @@ export const Hero: React.FC<HeroProps> = ({ whatsappNumber, onOpenCustomDesignMo
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-cream-100 shadow-2xl">
               <img 
                 src="/logo.jpg" 
-                alt="Gretel's Plug Logo" 
+                alt="Air_Luxe Gretel's Plug Logo" 
                 className="w-full h-full object-cover object-center scale-105 transform hover:scale-110 transition duration-700" 
               />
             </div>
+          </div>
+          <div className="flex items-center gap-2 text-gold font-bold tracking-[0.25em] text-xs uppercase my-1">
+            <span className="h-[1px] w-8 bg-gold/40"></span>
+            <span>GRETEL'S PLUG</span>
+            <span className="h-[1px] w-8 bg-gold/40"></span>
           </div>
         </div>
 
         {/* Hero Title */}
         <div className="space-y-3">
           <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-charcoal leading-[1.1]">
-            Gretel's Plug
+            Air_Luxe
           </h1>
           <p className="font-serif italic text-xl sm:text-2xl md:text-3xl text-gold-dark font-semibold max-w-2xl mx-auto">
             {ATELIER_INFO.tagline}
