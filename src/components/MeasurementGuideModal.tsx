@@ -9,39 +9,39 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
   const steps = [
     {
       title: "1. Bust / Chest",
-      desc: "Measure around the fullest part of your bust, keeping the measuring tape horizontal and comfortably flat across your back."
+      desc: "Measure around the fullest part of your chest or bust with a soft measuring tape flat across your back."
     },
     {
       title: "2. Natural Waist",
-      desc: "Measure around your natural waistline (the narrowest point above your belly button). Keep one finger between your body and the tape."
+      desc: "Measure around your waistline (the narrowest point right above your belly button)."
     },
     {
       title: "3. Hips",
-      desc: "Stand with feet together and measure around the fullest part of your hips and seat (approximately 8 inches below your waist)."
+      desc: "Stand with your feet together and measure around the fullest part of your hips."
     },
     {
       title: "4. Shoulder Width",
-      desc: "Measure across your back from the edge of your left shoulder bone to the edge of your right shoulder bone."
+      desc: "Measure across your upper back from the tip of your left shoulder to the tip of your right shoulder."
     },
     {
       title: "5. Sleeve Length",
-      desc: "Measure from the tip of your shoulder down along your arm to your wrist bone with a slight bend in your elbow."
+      desc: "Measure from the tip of your shoulder down your arm to your wrist."
     },
     {
       title: "6. Total Height & Outfit Length",
-      desc: "State your total barefoot height plus the heel height you intend to wear with your custom gown or tailored trousers."
+      desc: "State your height without shoes and mention if you will wear high heels with your gown or pants."
     }
   ];
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-      <div className="bg-cream-100 w-full max-w-3xl rounded-3xl border border-gold/40 shadow-2xl overflow-hidden relative max-h-[90vh] flex flex-col my-auto">
+      <div className="bg-cream-100 w-full max-w-3xl rounded-3xl border border-gold/40 shadow-2xl overflow-hidden relative max-h-[90vh] flex flex-col my-auto text-charcoal">
         {/* Modal Header */}
         <div className="bg-charcoal text-cream-100 px-6 py-4 flex items-center justify-between border-b border-gold/30">
           <div className="flex items-center gap-3">
             <Ruler className="w-5 h-5 text-gold" />
             <h3 className="font-serif text-lg font-bold text-cream-100">
-              Air_Luxe Master Fitting & Measurement Guide
+              Gretel's Plug Size & Fit Guide
             </h3>
           </div>
           <button
@@ -57,7 +57,7 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
           <div className="bg-cream-200 p-4 rounded-2xl border border-gold/30 flex items-center gap-3 text-xs text-charcoal">
             <Sparkles className="w-5 h-5 text-gold shrink-0" />
             <p className="font-medium">
-              <strong>Atelier Tip:</strong> For the most flawless drape, use a soft fabric measuring tape and wear thin undergarments during measurement. If you prefer, our tailors will gladly guide you line-by-line over WhatsApp!
+              <strong>Quick Tip:</strong> Use a soft tape measure while wearing light clothes. If you're unsure about any size, simply send us a message on WhatsApp and we will help you!
             </p>
           </div>
 
@@ -68,7 +68,7 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
                   <span className="font-serif text-base font-bold text-charcoal">{s.title}</span>
                   <CheckCircle2 className="w-3.5 h-3.5 text-gold" />
                 </div>
-                <p className="text-xs text-charcoal/70 leading-relaxed">
+                <p className="text-xs text-charcoal/75 leading-relaxed">
                   {s.desc}
                 </p>
               </div>
@@ -76,9 +76,9 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
           </div>
 
           <div className="p-4 bg-charcoal text-silk-cream rounded-2xl text-center space-y-2">
-            <h4 className="font-serif text-lg font-bold text-gold">Need Personalized Guidance?</h4>
+            <h4 className="font-serif text-lg font-bold text-gold">Need Help Measuring?</h4>
             <p className="text-xs text-silk-cream/80 max-w-md mx-auto">
-              Our tailors offer live video consultations on WhatsApp to ensure your measurements are 100% precise before crafting begins.
+              Our tailors will guide you step-by-step on WhatsApp so your outfit fits perfectly!
             </p>
           </div>
         </div>

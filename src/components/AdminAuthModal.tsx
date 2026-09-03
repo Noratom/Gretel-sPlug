@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, KeyRound, X, Sparkles, AlertCircle } from 'lucide-react';
+import { Lock, KeyRound, X, AlertCircle } from 'lucide-react';
 
 interface AdminAuthModalProps {
   correctPin: string;
@@ -32,7 +32,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-charcoal/60 hover:text-gold p-1 rounded-full hover:bg-cream-200 transition"
+          className="text-charcoal/60 hover:text-gold p-1 rounded-full hover:bg-cream-200 transition"
         >
           <X className="w-5 h-5" />
         </button>
@@ -43,9 +43,9 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
             <Lock className="w-7 h-7" />
           </div>
           <div className="space-y-1">
-            <h3 className="font-serif text-2xl font-bold">Atelier Security Lock</h3>
+            <h3 className="font-serif text-2xl font-bold">Gretel's Plug Admin Lock</h3>
             <p className="text-xs text-charcoal/70 font-medium">
-              Enter your master passcode to access the Product Manager.
+              Enter your passcode to access the Admin Panel.
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
         </form>
 
         <p className="text-[10px] text-center text-charcoal/40 uppercase tracking-widest mt-6">
-          Air_Luxe • Gretel's Plug 2020 Security
+          Gretel's Plug Security
         </p>
       </div>
     </div>

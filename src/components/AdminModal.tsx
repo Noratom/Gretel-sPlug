@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { BespokeDesign, Category } from '../types/bespoke';
 import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon } from 'lucide-react';
+import { compressImageFile } from '../utils/imageCompressor';
 
 interface AdminModalProps {
   designs: BespokeDesign[];
@@ -13,11 +14,11 @@ interface AdminModalProps {
 }
 
 const CATEGORIES: Category[] = [
-  'Gowns & Evening Wear',
-  'Bespoke Suits & Sets',
-  'Silk Luxury',
-  'Red Carpet & Couture',
-  'Custom Outerwear'
+  'Dresses & Gowns',
+  'Suits & Sets',
+  'Silk & Loungewear',
+  'Special Occasion',
+  'Jackets & Coats'
 ];
 
 export const AdminModal: React.FC<AdminModalProps> = ({
@@ -33,52 +34,57 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [editingDesign, setEditingDesign] = useState<BespokeDesign | null>(null);
   const [phoneInput, setPhoneInput] = useState(whatsappNumber);
   const [pinInput, setPinInput] = useState(adminPin);
+  const [isUploading, setIsUploading] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form State for Add/Edit
   const [formData, setFormData] = useState<Partial<BespokeDesign>>({
     title: '',
-    category: 'Gowns & Evening Wear',
+    category: 'Dresses & Gowns',
     tagline: '',
     description: '',
-    priceRange: '$500 - $800',
-    craftingTime: '5 - 7 Business Days',
+    priceRange: '₦60,000 - ₦100,000',
+    craftingTime: '5 - 7 Days',
     mainImage: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop',
     isFeatured: false,
     isNewArrival: true,
     fabrics: [
       { id: 'f_new_1', name: 'Silk Satin', texture: 'Smooth sheen', colorHex: '#C5A059' }
     ],
-    details: ['Custom hand-fitted waist', 'Made to exact measurements']
+    details: ['Hand-fitted waist', 'Tailored to your exact measurements']
   });
 
-  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
+      try {
+        setIsUploading(true);
+        const compressedBase64 = await compressImageFile(file);
         setFormData(prev => ({
           ...prev,
-          mainImage: base64String,
-          galleryImages: [base64String, ...(prev.galleryImages || [])]
+          mainImage: compressedBase64,
+          galleryImages: [compressedBase64, ...(prev.galleryImages || [])]
         }));
-      };
-      reader.readAsDataURL(file);
+      } catch (err) {
+        console.error('Failed to process image file', err);
+        alert('Could not load image file. Please try another photo.');
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
   const handleStartNew = () => {
     setEditingDesign(null);
     setFormData({
-      id: `air-luxe-${Date.now()}`,
+      id: `gretel-${Date.now()}`,
       title: '',
-      category: 'Gowns & Evening Wear',
+      category: 'Dresses & Gowns',
       tagline: '',
       description: '',
-      priceRange: '$500 - $800',
-      craftingTime: '5 - 7 Business Days',
+      priceRange: '₦60,000 - ₦100,000',
+      craftingTime: '5 - 7 Days',
       mainImage: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop',
       galleryImages: ['https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop'],
       isFeatured: false,
@@ -86,7 +92,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
       fabrics: [
         { id: `f_${Date.now()}`, name: 'Silk Satin', texture: 'Smooth sheen', colorHex: '#C5A059' }
       ],
-      details: ['Custom hand-fitted waist', 'Made to exact measurements']
+      details: ['Hand-fitted waist', 'Tailored to your exact measurements']
     });
   };
 
@@ -96,7 +102,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this product from the atelier display?')) {
+    if (confirm('Are you sure you want to delete this outfit design?')) {
       const updated = designs.filter(d => d.id !== id);
       onSaveDesigns(updated);
       if (editingDesign?.id === id) {
@@ -108,25 +114,25 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title || !formData.mainImage) {
-      alert('Please fill in the product title and upload or enter an image URL.');
+      alert('Please enter an outfit title and upload a photo.');
       return;
     }
 
     const newDesignItem: BespokeDesign = {
-      id: formData.id || `air-luxe-${Date.now()}`,
+      id: formData.id || `gretel-${Date.now()}`,
       title: formData.title || 'Untitled Custom Outfit',
-      category: (formData.category as Category) || 'Gowns & Evening Wear',
+      category: (formData.category as Category) || 'Dresses & Gowns',
       tagline: formData.tagline || '',
       description: formData.description || '',
       basePriceUSD: 500,
-      priceRange: formData.priceRange || '$500 - $800',
-      craftingTime: formData.craftingTime || '5 - 7 Business Days',
+      priceRange: formData.priceRange || '₦50,000 - ₦100,000',
+      craftingTime: formData.craftingTime || '5 - 7 Days',
       mainImage: formData.mainImage || '',
       galleryImages: formData.galleryImages || [formData.mainImage || ''],
       fabrics: formData.fabrics || [],
       isFeatured: formData.isFeatured || false,
       isNewArrival: formData.isNewArrival || false,
-      details: formData.details || ['Tailored to exact custom fit']
+      details: formData.details || ['Tailored to exact fit']
     };
 
     let updatedList: BespokeDesign[];
@@ -137,7 +143,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     }
 
     onSaveDesigns(updatedList);
-    alert(editingDesign ? 'Outfit updated successfully!' : 'New outfit added to catalog!');
+    alert(editingDesign ? 'Outfit updated successfully!' : 'New outfit added!');
     handleStartNew();
   };
 
@@ -145,7 +151,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     e.preventDefault();
     onSaveWhatsappNumber(phoneInput);
     onSaveAdminPin(pinInput);
-    alert('Atelier settings and passcode updated!');
+    alert('WhatsApp contact number and passcode updated!');
   };
 
   return (
@@ -156,7 +162,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
           <div className="flex items-center gap-3">
             <Sparkles className="w-5 h-5 text-gold" />
             <h3 className="font-serif text-xl font-bold text-cream-100">
-              Air_Luxe Atelier Manager
+              Gretel's Plug Admin Panel
             </h3>
           </div>
 
@@ -168,14 +174,14 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 onClick={() => setActiveTab('products')}
                 className={`px-3 py-1.5 rounded-md transition ${activeTab === 'products' ? 'bg-gold text-charcoal' : 'text-cream-100 hover:text-gold'}`}
               >
-                Catalog Items
+                Outfit Catalog
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('settings')}
                 className={`px-3 py-1.5 rounded-md transition ${activeTab === 'settings' ? 'bg-gold text-charcoal' : 'text-cream-100 hover:text-gold'}`}
               >
-                Settings & Security
+                Settings & Phone
               </button>
             </div>
 
@@ -204,9 +210,9 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center mx-auto text-gold">
                 <Settings className="w-6 h-6" />
               </div>
-              <h4 className="font-serif text-2xl font-bold">Atelier Settings & Security</h4>
+              <h4 className="font-serif text-2xl font-bold">WhatsApp & Passcode Settings</h4>
               <p className="text-xs text-charcoal/70">
-                Update your official WhatsApp contact number and master security passcode.
+                Update your official WhatsApp contact number and admin passcode.
               </p>
             </div>
 
@@ -218,17 +224,20 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. 2348000000000"
+                  placeholder="e.g. 09161273360"
                   value={phoneInput}
                   onChange={(e) => setPhoneInput(e.target.value)}
                   className="w-full bg-cream-200 border border-silk-taupe px-4 py-3 rounded-xl text-sm font-semibold focus:outline-none focus:border-gold"
                 />
+                <p className="text-[11px] text-charcoal/60">
+                  Default: <code>09161273360</code>. Works with both local numbers and international codes.
+                </p>
               </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5">
                   <Lock className="w-4 h-4 text-gold" />
-                  Master Admin Passcode / PIN
+                  Admin Passcode / PIN
                 </label>
                 <input
                   type="text"
@@ -237,9 +246,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   onChange={(e) => setPinInput(e.target.value)}
                   className="w-full bg-cream-200 border border-silk-taupe px-4 py-3 rounded-xl text-sm font-bold tracking-widest focus:outline-none focus:border-gold"
                 />
-                <p className="text-[11px] text-charcoal/60">
-                  This passcode protects access to your Admin Panel when clicking "Manage Products".
-                </p>
               </div>
             </div>
 
@@ -248,16 +254,16 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               className="w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-charcoal py-3.5 rounded-full text-xs font-extrabold uppercase tracking-[0.2em] shadow-md transition"
             >
               <Save className="w-4 h-4" />
-              Save Settings & Security
+              Save Settings
             </button>
           </form>
         ) : (
-          /* Products Tab: Left List & Right Form */
+          /* Products Tab */
           <div className="grid grid-cols-1 lg:grid-cols-12 overflow-y-auto flex-1 divide-y lg:divide-y-0 lg:divide-x divide-silk-taupe/60">
-            {/* Left: Product List (5 Cols) */}
+            {/* Left List */}
             <div className="lg:col-span-5 p-6 space-y-4 overflow-y-auto max-h-[75vh]">
               <div className="flex items-center justify-between">
-                <h4 className="font-serif text-lg font-bold">Existing Outfits ({designs.length})</h4>
+                <h4 className="font-serif text-lg font-bold">Active Outfits ({designs.length})</h4>
                 <button
                   type="button"
                   onClick={handleStartNew}
@@ -308,11 +314,11 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               </div>
             </div>
 
-            {/* Right: Add/Edit Form (7 Cols) */}
+            {/* Right Form */}
             <form onSubmit={handleFormSubmit} className="lg:col-span-7 p-6 space-y-4 overflow-y-auto max-h-[75vh]">
               <div className="flex items-center justify-between pb-2 border-b border-silk-taupe/60">
                 <h4 className="font-serif text-xl font-bold">
-                  {editingDesign ? `Edit: ${editingDesign.title}` : 'Add New Bespoke Outfit'}
+                  {editingDesign ? `Edit: ${editingDesign.title}` : 'Add New Outfit'}
                 </h4>
                 {editingDesign && (
                   <button
@@ -320,7 +326,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     onClick={handleStartNew}
                     className="text-xs font-bold text-gold-dark hover:underline"
                   >
-                    + Switch to New Outfit
+                    + Add New Outfit
                   </button>
                 )}
               </div>
@@ -328,11 +334,11 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               {/* Title & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-bold uppercase block mb-1">Product Title</label>
+                  <label className="text-[11px] font-bold uppercase block mb-1">Outfit Title</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Royal Silk Caftan"
+                    placeholder="e.g. Royal Silk Gown"
                     value={formData.title || ''}
                     onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none"
@@ -342,7 +348,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 <div>
                   <label className="text-[11px] font-bold uppercase block mb-1">Category</label>
                   <select
-                    value={formData.category || 'Gowns & Evening Wear'}
+                    value={formData.category || 'Dresses & Gowns'}
                     onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as Category }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none cursor-pointer"
                   >
@@ -356,10 +362,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               {/* Tagline & Price Range */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-bold uppercase block mb-1">Tagline / Short Motto</label>
+                  <label className="text-[11px] font-bold uppercase block mb-1">Short Description / Motto</label>
                   <input
                     type="text"
-                    placeholder="e.g. Precision hand-draped silk corset"
+                    placeholder="e.g. Soft silk dress tailored to your fit"
                     value={formData.tagline || ''}
                     onChange={(e) => setFormData(prev => ({ ...prev, tagline: e.target.value }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none"
@@ -367,10 +373,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold uppercase block mb-1">Estimated Price Range</label>
+                  <label className="text-[11px] font-bold uppercase block mb-1">Price Range</label>
                   <input
                     type="text"
-                    placeholder="e.g. $650 - $950"
+                    placeholder="e.g. ₦60,000 - ₦90,000"
                     value={formData.priceRange || ''}
                     onChange={(e) => setFormData(prev => ({ ...prev, priceRange: e.target.value }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none"
@@ -378,26 +384,27 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </div>
               </div>
 
-              {/* Image Input Options: Gallery File Upload OR Image URL */}
+              {/* Photo Upload Section */}
               <div className="space-y-2 p-4 bg-cream-200/60 rounded-2xl border border-gold/30">
-                <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center justify-between">
+                <label className="text-xs font-extrabold uppercase tracking-wider flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <ImageIcon className="w-4 h-4 text-gold" />
-                    Product Photo (Gallery Upload or URL)
+                    Outfit Photo (Gallery Upload or Link)
                   </span>
                   {formData.mainImage && (
-                    <span className="text-[10px] text-gold-dark font-semibold">Photo Loaded</span>
+                    <span className="text-[10px] text-green-700 font-bold">Photo Ready</span>
                   )}
                 </label>
 
                 <div className="flex flex-col sm:flex-row items-center gap-3">
                   <button
                     type="button"
+                    disabled={isUploading}
                     onClick={() => fileInputRef.current?.click()}
                     className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-charcoal px-4 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider transition shadow-sm"
                   >
                     <Upload className="w-4 h-4" />
-                    <span>Upload Photo from Gallery / Device</span>
+                    <span>{isUploading ? 'Compressing...' : 'Upload Photo from Gallery'}</span>
                   </button>
 
                   <span className="text-xs font-bold text-charcoal/40">OR</span>
@@ -411,7 +418,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   />
                 </div>
 
-                {/* Photo Preview Box */}
                 {formData.mainImage && (
                   <div className="pt-2 flex items-center gap-3">
                     <img
@@ -420,20 +426,20 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                       className="w-16 h-20 object-cover rounded-xl border-2 border-gold shadow-md"
                     />
                     <div className="text-xs text-charcoal/70 space-y-0.5">
-                      <p className="font-bold text-charcoal">Image Preview Ready</p>
-                      <p className="text-[10px] text-gold-dark">Will display in Catalog & WhatsApp Modal</p>
+                      <p className="font-bold text-charcoal">Photo Preview Ready</p>
+                      <p className="text-[10px] text-gold-dark">Will display across Gretel's Plug website</p>
                     </div>
                   </div>
                 )}
               </div>
 
-              {/* Crafting Time & Full Description */}
+              {/* Ready In & Details */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] font-bold uppercase block mb-1">Crafting Lead Time</label>
+                  <label className="text-[11px] font-bold uppercase block mb-1">Ready in (Days)</label>
                   <input
                     type="text"
-                    placeholder="e.g. 5 - 7 Business Days"
+                    placeholder="e.g. 5 - 7 Days"
                     value={formData.craftingTime || ''}
                     onChange={(e) => setFormData(prev => ({ ...prev, craftingTime: e.target.value }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none"
@@ -441,10 +447,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-bold uppercase block mb-1">Full Description</label>
+                  <label className="text-[11px] font-bold uppercase block mb-1">Full Outfit Details</label>
                   <textarea
                     rows={2}
-                    placeholder="Describe the silhouette, hand-work, or occasion..."
+                    placeholder="Describe fit, fabric quality, and occasion..."
                     value={formData.description || ''}
                     onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                     className="w-full bg-cream-200 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-semibold focus:border-gold focus:outline-none"
@@ -452,7 +458,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </div>
               </div>
 
-              {/* Checkbox Toggles */}
+              {/* Toggles */}
               <div className="flex items-center gap-6 pt-1">
                 <label className="flex items-center gap-2 text-xs font-bold cursor-pointer">
                   <input
@@ -461,7 +467,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     onChange={(e) => setFormData(prev => ({ ...prev, isFeatured: e.target.checked }))}
                     className="accent-gold w-4 h-4 rounded"
                   />
-                  <span>Feature in Signature Banner / Lookbook</span>
+                  <span>Feature in Lookbook Section</span>
                 </label>
 
                 <label className="flex items-center gap-2 text-xs font-bold cursor-pointer">
@@ -471,7 +477,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                     onChange={(e) => setFormData(prev => ({ ...prev, isNewArrival: e.target.checked }))}
                     className="accent-gold w-4 h-4 rounded"
                   />
-                  <span>Mark as New Arrival Badge</span>
+                  <span>Show "NEW" Badge</span>
                 </label>
               </div>
 
@@ -482,7 +488,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   className="flex items-center gap-2 bg-gold hover:bg-gold-dark text-charcoal px-6 py-3 rounded-full text-xs font-extrabold uppercase tracking-wider shadow-md transition"
                 >
                   <Save className="w-4 h-4" />
-                  {editingDesign ? 'Save Outfit Changes' : 'Add Outfit to Catalog'}
+                  {editingDesign ? 'Save Outfit Changes' : 'Add Outfit to Website'}
                 </button>
               </div>
             </form>

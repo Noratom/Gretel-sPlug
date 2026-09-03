@@ -8,15 +8,16 @@ import { Footer } from './components/Footer';
 import { BespokeOrderModal } from './components/BespokeOrderModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { MeasurementGuideModal } from './components/MeasurementGuideModal';
+import { CustomDesignModal } from './components/CustomDesignModal';
 import { AdminModal } from './components/AdminModal';
 import { AdminAuthModal } from './components/AdminAuthModal';
 import { BespokeDesign } from './types/bespoke';
 import { BESPOKE_DESIGNS } from './data/designs';
 import { DEFAULT_WHATSAPP_NUMBER } from './utils/whatsapp';
 
-const STORAGE_KEY_DESIGNS = 'AIR_LUXE_BESPOKE_DESIGNS';
-const STORAGE_KEY_PHONE = 'AIR_LUXE_WHATSAPP_NUMBER';
-const STORAGE_KEY_PIN = 'AIR_LUXE_ADMIN_PIN';
+const STORAGE_KEY_DESIGNS = 'GRETELS_PLUG_DESIGNS';
+const STORAGE_KEY_PHONE = 'GRETELS_PLUG_WHATSAPP';
+const STORAGE_KEY_PIN = 'GRETELS_PLUG_ADMIN_PIN';
 
 export function App() {
   // Load initial designs from LocalStorage or default dataset
@@ -24,7 +25,10 @@ export function App() {
     const saved = localStorage.getItem(STORAGE_KEY_DESIGNS);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
       } catch (e) {
         console.error('Failed to parse saved designs', e);
       }
@@ -32,7 +36,7 @@ export function App() {
     return BESPOKE_DESIGNS;
   });
 
-  // Load WhatsApp phone number
+  // Load WhatsApp phone number (Default: '09161273360')
   const [whatsappNumber, setWhatsappNumber] = useState<string>(() => {
     return localStorage.getItem(STORAGE_KEY_PHONE) || DEFAULT_WHATSAPP_NUMBER;
   });
@@ -46,6 +50,7 @@ export function App() {
   const [designForOrder, setDesignForOrder] = useState<BespokeDesign | null>(null);
   const [designForQuickView, setDesignForQuickView] = useState<BespokeDesign | null>(null);
   const [isMeasurementGuideOpen, setIsMeasurementGuideOpen] = useState(false);
+  const [isCustomDesignModalOpen, setIsCustomDesignModalOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
@@ -61,40 +66,61 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Save designs state to LocalStorage
+  // Save designs state to LocalStorage with robust error checking
   const handleSaveDesigns = (updatedDesigns: BespokeDesign[]) => {
     setDesigns(updatedDesigns);
-    localStorage.setItem(STORAGE_KEY_DESIGNS, JSON.stringify(updatedDesigns));
+    try {
+      localStorage.setItem(STORAGE_KEY_DESIGNS, JSON.stringify(updatedDesigns));
+    } catch (e) {
+      console.error('LocalStorage save error:', e);
+      alert('Note: Storage warning - your product changes are saved for this session!');
+    }
   };
 
   // Save WhatsApp number
   const handleSaveWhatsappNumber = (newNumber: string) => {
     setWhatsappNumber(newNumber);
-    localStorage.setItem(STORAGE_KEY_PHONE, newNumber);
+    try {
+      localStorage.setItem(STORAGE_KEY_PHONE, newNumber);
+    } catch (e) {
+      console.error('LocalStorage phone save error', e);
+    }
   };
 
   // Save Admin PIN
   const handleSaveAdminPin = (newPin: string) => {
     setAdminPin(newPin);
-    localStorage.setItem(STORAGE_KEY_PIN, newPin);
+    try {
+      localStorage.setItem(STORAGE_KEY_PIN, newPin);
+    } catch (e) {
+      console.error('LocalStorage PIN save error', e);
+    }
   };
 
   return (
     <div className="min-h-screen bg-cream-100 text-charcoal font-sans flex flex-col selection:bg-gold/30">
       {/* Navigation Header */}
       <Header
+        whatsappNumber={whatsappNumber}
         onOpenMeasurementGuide={() => setIsMeasurementGuideOpen(true)}
+        onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
         onOpenAdmin={() => setIsAuthModalOpen(true)}
         onSelectCategory={(cat) => setSelectedCategory(cat)}
       />
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        {/* Editorial Hero Banner */}
-        <Hero />
+        {/* Hero Banner */}
+        <Hero
+          whatsappNumber={whatsappNumber}
+          onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
+        />
 
-        {/* 4-Step Bespoke Atelier Process */}
-        <CraftsmanshipProcess />
+        {/* 4-Step Process */}
+        <CraftsmanshipProcess
+          whatsappNumber={whatsappNumber}
+          onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
+        />
 
         {/* Made-to-Order Catalog */}
         <Catalog
@@ -103,20 +129,27 @@ export function App() {
           onCategoryChange={setSelectedCategory}
           onSelectDesign={(design) => setDesignForOrder(design)}
           onQuickView={(design) => setDesignForQuickView(design)}
+          onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
         />
 
-        {/* Editorial Couture Lookbook */}
+        {/* Featured Lookbook */}
         <Lookbook
           designs={designs}
+          whatsappNumber={whatsappNumber}
           onSelectDesign={(design) => setDesignForOrder(design)}
           onQuickView={(design) => setDesignForQuickView(design)}
+          onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
         />
       </main>
 
       {/* Footer */}
-      <Footer onOpenMeasurementGuide={() => setIsMeasurementGuideOpen(true)} />
+      <Footer
+        whatsappNumber={whatsappNumber}
+        onOpenMeasurementGuide={() => setIsMeasurementGuideOpen(true)}
+        onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
+      />
 
-      {/* Bespoke WhatsApp Order & Measurement Modal */}
+      {/* WhatsApp Order & Measurement Modal */}
       {designForOrder && (
         <BespokeOrderModal
           design={designForOrder}
@@ -140,6 +173,15 @@ export function App() {
         <MeasurementGuideModal onClose={() => setIsMeasurementGuideOpen(false)} />
       )}
 
+      {/* Send Your Own Design Modal */}
+      {isCustomDesignModalOpen && (
+        <CustomDesignModal
+          whatsappNumber={whatsappNumber}
+          onClose={() => setIsCustomDesignModalOpen(false)}
+          onOpenMeasurementGuide={() => setIsMeasurementGuideOpen(true)}
+        />
+      )}
+
       {/* Passcode Security Auth Prompt */}
       {isAuthModalOpen && (
         <AdminAuthModal
@@ -152,7 +194,7 @@ export function App() {
         />
       )}
 
-      {/* Admin Atelier Manager Modal */}
+      {/* Admin Manager Modal */}
       {isAdminOpen && (
         <AdminModal
           designs={designs}

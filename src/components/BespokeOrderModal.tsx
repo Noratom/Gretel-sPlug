@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BespokeDesign, FabricOption, SizeMode, CustomMeasurements, BespokeOrderState } from '../types/bespoke';
-import { X, MessageCircle, Ruler, Sparkles, CheckCircle2, ShieldCheck, Clock, Layers } from 'lucide-react';
+import { X, MessageCircle, Ruler, CheckCircle2, ShieldCheck, Clock, Layers } from 'lucide-react';
 import { openWhatsAppOrder } from '../utils/whatsapp';
 
 interface BespokeOrderModalProps {
@@ -69,14 +69,13 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
         <div className="bg-charcoal text-cream-100 px-6 py-4 flex items-center justify-between border-b border-gold/30">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full border border-gold overflow-hidden">
-              <img src="/logo.jpg" alt="Air_Luxe emblem" className="w-full h-full object-cover" />
+              <img src="/logo.jpg" alt="Gretel's Plug logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h3 className="font-serif text-lg font-bold text-cream-100 flex items-center gap-2">
-                <span>Bespoke Consultation & Order</span>
-                <span className="text-gold text-xs font-sans tracking-widest font-normal uppercase hidden sm:inline">| Air_Luxe</span>
+                <span>Custom Outfit Order</span>
+                <span className="text-gold text-xs font-sans tracking-widest font-normal uppercase hidden sm:inline">| Gretel's Plug</span>
               </h3>
-              <p className="text-[10px] text-gold tracking-widest uppercase">Gretel's Plug 2020 • Est 2020</p>
             </div>
           </div>
 
@@ -90,7 +89,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
 
         {/* Scrollable Form Body */}
         <form onSubmit={handleOrderSubmit} className="p-6 sm:p-8 overflow-y-auto space-y-8 flex-1">
-          {/* Design Overview Row */}
+          {/* Outfit Overview Row */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-cream-200/80 p-5 rounded-2xl border border-silk-taupe">
             <img
               src={design.mainImage}
@@ -102,13 +101,13 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 {design.category}
               </span>
               <h4 className="font-serif text-2xl font-bold text-charcoal">{design.title}</h4>
-              <p className="text-xs text-charcoal/70">{design.tagline}</p>
+              <p className="text-xs text-charcoal/75">{design.tagline}</p>
               
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-2 text-xs font-semibold text-charcoal">
-                <span className="text-gold-dark">Est. Price: {design.priceRange}</span>
+                <span className="text-gold-dark font-bold">Price: {design.priceRange}</span>
                 <span className="text-charcoal/60 flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5 text-gold" />
-                  {design.craftingTime}
+                  Ready in: {design.craftingTime}
                 </span>
               </div>
             </div>
@@ -119,9 +118,8 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center justify-between">
               <span className="flex items-center gap-1.5">
                 <Layers className="w-4 h-4 text-gold" />
-                1. Select Atelier Fabric
+                1. Select Fabric & Color
               </span>
-              <span className="text-[11px] font-medium text-gold-dark">Included in custom fitting</span>
             </label>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -153,12 +151,12 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             </div>
           </div>
 
-          {/* Section 2: Size & Body Measurements Toggle */}
+          {/* Section 2: Size & Measurements */}
           <div className="space-y-4 pt-2 border-t border-silk-taupe/60">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
                 <Ruler className="w-4 h-4 text-gold" />
-                2. Fit & Measurement Profile
+                2. Your Sizing & Fit
               </label>
 
               <button
@@ -181,7 +179,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                     : 'text-charcoal/70 hover:text-charcoal'
                 }`}
               >
-                ✨ Custom Measurements (Recommended)
+                Custom Measurements (Recommended)
               </button>
               <button
                 type="button"
@@ -216,15 +214,12 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                     </button>
                   ))}
                 </div>
-                <p className="text-[11px] text-charcoal/60 italic">
-                  Note: Standard sizes will be tailored according to European luxury sizing guidelines.
-                </p>
               </div>
             ) : (
-              /* Custom Body Measurements Form Grid */
+              /* Custom Body Measurements */
               <div className="p-5 bg-cream-200/50 rounded-2xl border border-silk-taupe space-y-4">
                 <p className="text-xs font-semibold text-charcoal/80">
-                  Enter your measurements in inches or cm (leave any blank if unsure, master tailors will confirm via WhatsApp):
+                  Enter your body measurements (leave blank if unsure, we will confirm on WhatsApp):
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -295,10 +290,10 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                   </div>
 
                   <div className="col-span-2">
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Desired Outfit Length / Heels</label>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Outfit Length / Heels</label>
                     <input
                       type="text"
-                      placeholder="e.g. Floor length with 4-inch heels"
+                      placeholder="e.g. Floor length with heels"
                       value={measurements.desiredOutfitLength}
                       onChange={(e) => handleInputChange('desiredOutfitLength', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
@@ -309,10 +304,10 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             )}
           </div>
 
-          {/* Section 3: Notes & Client Info */}
+          {/* Section 3: Notes & Customer Info */}
           <div className="space-y-4 pt-2 border-t border-silk-taupe/60">
             <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal block">
-              3. Customization Request & Client Info
+              3. Special Request & Customer Info
             </label>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -320,7 +315,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Your Full Name</label>
                 <input
                   type="text"
-                  placeholder="e.g. Lady Katherine"
+                  placeholder="e.g. Mary Johnson"
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                   className="w-full bg-cream-100 border border-silk-taupe px-3.5 py-2.5 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
@@ -328,10 +323,10 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Preferred Target Event / Delivery Date</label>
+                <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Target Delivery Date</label>
                 <input
                   type="text"
-                  placeholder="e.g. October 15 Gala"
+                  placeholder="e.g. Next Saturday"
                   value={fittingDatePreference}
                   onChange={(e) => setFittingDatePreference(e.target.value)}
                   className="w-full bg-cream-100 border border-silk-taupe px-3.5 py-2.5 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
@@ -343,7 +338,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
               <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Additional Style Notes / Modifications</label>
               <textarea
                 rows={2}
-                placeholder="e.g. Please add a higher neckline or matching silk waist belt..."
+                placeholder="e.g. Add matching waist belt or higher neckline..."
                 value={measurements.additionalNotes}
                 onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
                 className="w-full bg-cream-100 border border-silk-taupe px-3.5 py-2.5 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
@@ -355,7 +350,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
           <div className="pt-4 border-t border-silk-taupe flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-charcoal/70">
               <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
-              <span>Direct 1-on-1 consultation with Air_Luxe master tailors</span>
+              <span>Direct WhatsApp message sent to Gretel's Plug tailors</span>
             </div>
 
             <button

@@ -1,10 +1,10 @@
 export type Category = 
   | 'All' 
-  | 'Gowns & Evening Wear' 
-  | 'Bespoke Suits & Sets' 
-  | 'Silk Luxury' 
-  | 'Red Carpet & Couture' 
-  | 'Custom Outerwear';
+  | 'Dresses & Gowns' 
+  | 'Suits & Sets' 
+  | 'Silk & Loungewear' 
+  | 'Special Occasion' 
+  | 'Jackets & Coats';
 
 export interface FabricOption {
   id: string;
@@ -22,7 +22,7 @@ export interface BespokeDesign {
   description: string;
   basePriceUSD: number;
   priceRange: string;
-  craftingTime: string; // e.g. "5 - 7 Business Days"
+  craftingTime: string; // e.g. "5 - 7 Days"
   mainImage: string;
   galleryImages: string[];
   fabrics: FabricOption[];
@@ -53,4 +53,17 @@ export interface BespokeOrderState {
   clientName: string;
   clientPhone: string;
   fittingDatePreference: string;
+}
+
+export interface CustomDesignRequestState {
+  photoPreview?: string;
+  description: string;
+  fabricPreference: string;
+  sizeMode: SizeMode;
+  standardSize: string;
+  measurements: CustomMeasurements;
+  budgetRange: string;
+  neededDate: string;
+  clientName: string;
+  clientPhone: string;
 }

@@ -1,20 +1,24 @@
 import React from 'react';
 import { BespokeDesign } from '../types/bespoke';
-import { Sparkles, MessageCircle, Eye, Scissors } from 'lucide-react';
+import { Sparkles, MessageCircle, Upload, Scissors } from 'lucide-react';
 import { openWhatsAppGeneralInquiry } from '../utils/whatsapp';
 
 interface LookbookProps {
   designs: BespokeDesign[];
+  whatsappNumber: string;
   onSelectDesign: (design: BespokeDesign) => void;
   onQuickView: (design: BespokeDesign) => void;
+  onOpenCustomDesignModal: () => void;
 }
 
 export const Lookbook: React.FC<LookbookProps> = ({
   designs,
+  whatsappNumber,
   onSelectDesign,
-  onQuickView
+  onQuickView,
+  onOpenCustomDesignModal
 }) => {
-  // Get featured products or top products for the Editorial Lookbook
+  // Featured outfits
   const featuredShots = designs.filter(d => d.isFeatured).length > 0
     ? designs.filter(d => d.isFeatured).slice(0, 6)
     : designs.slice(0, 6);
@@ -23,16 +27,16 @@ export const Lookbook: React.FC<LookbookProps> = ({
     <section id="lookbook" className="py-20 bg-charcoal text-cream-100 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-3 mb-16">
-          <div className="inline-flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-[0.3em]">
+          <div className="inline-flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-[0.25em]">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>EDITORIAL ATELIER LOOKBOOK</span>
+            <span>OUR FEATURED CREATIONS</span>
             <Sparkles className="w-3.5 h-3.5" />
           </div>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-cream-100">
-            Air_Luxe Couture in Motion
+            Gretel's Plug Signature Designs
           </h2>
-          <p className="text-cream-100/70 text-sm sm:text-base max-w-2xl mx-auto font-light">
-            "Driven by qualifying and chosen by those who know the difference."
+          <p className="text-cream-100/75 text-sm sm:text-base max-w-2xl mx-auto font-light">
+            "Custom Made Outfits Tailored to Fit You Perfectly."
           </p>
         </div>
 
@@ -51,7 +55,7 @@ export const Lookbook: React.FC<LookbookProps> = ({
               />
               
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent opacity-90 group-hover:opacity-95 transition duration-300 flex flex-col justify-end p-6 sm:p-8">
-                <span className="text-[10px] text-gold font-extrabold uppercase tracking-[0.25em] mb-1 inline-block">
+                <span className="text-[10px] text-gold font-extrabold uppercase tracking-[0.2em] mb-1 inline-block">
                   {design.category}
                 </span>
 
@@ -59,7 +63,7 @@ export const Lookbook: React.FC<LookbookProps> = ({
                   {design.title}
                 </h3>
 
-                <p className="text-xs text-cream-100/70 mt-1.5 font-light line-clamp-2">
+                <p className="text-xs text-cream-100/75 mt-1.5 font-light line-clamp-2">
                   {design.tagline || design.description}
                 </p>
 
@@ -88,21 +92,21 @@ export const Lookbook: React.FC<LookbookProps> = ({
         {/* Custom Outfit Inspiration Banner */}
         <div className="mt-16 bg-cream-100 text-charcoal rounded-3xl p-8 md:p-12 border border-gold/40 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
           <div className="space-y-2 text-center md:text-left">
-            <span className="text-gold-dark text-xs font-bold uppercase tracking-[0.25em]">HAVE A CUSTOM REFERENCE IMAGE?</span>
+            <span className="text-gold-dark text-xs font-bold uppercase tracking-[0.2em]">HAVE A DESIGN PHOTO YOU WANT US TO MAKE?</span>
             <h3 className="font-serif text-2xl sm:text-4xl font-bold text-charcoal">
-              Request A Completely Unique Outfit Design
+              Send Us Your Own Design Photo
             </h3>
-            <p className="text-xs sm:text-sm text-charcoal/70 max-w-xl">
-              Send us your sketch, inspiration picture, or moodboard directly on WhatsApp. Our atelier will review your request and send a tailored quote.
+            <p className="text-xs sm:text-sm text-charcoal/75 max-w-xl">
+              Upload any picture of an outfit you saw online or drew yourself. We will review your photo and craft it to fit your body perfectly!
             </p>
           </div>
 
           <button
-            onClick={() => openWhatsAppGeneralInquiry(undefined, "Custom Outfit Sketch / Inspiration Reference")}
+            onClick={onOpenCustomDesignModal}
             className="shrink-0 flex items-center gap-3 bg-gold hover:bg-gold-dark text-charcoal px-8 py-4 rounded-full text-xs font-extrabold uppercase tracking-[0.2em] shadow-lg transition transform hover:-translate-y-0.5"
           >
-            <MessageCircle className="w-5 h-5" />
-            Send Custom Sketch on WhatsApp
+            <Upload className="w-5 h-5" />
+            Upload Design Photo Now
           </button>
         </div>
       </div>

@@ -2,182 +2,175 @@ import { BespokeDesign } from '../types/bespoke';
 
 export const BESPOKE_DESIGNS: BespokeDesign[] = [
   {
-    id: 'air-luxe-01',
-    title: 'The Aurelia Sculpted Evening Gown',
-    category: 'Gowns & Evening Wear',
-    tagline: 'Precision hand-draped corset bodice with flowing liquid silk train.',
-    description: 'An architectural masterpiece created for high-profile galas and red-carpet occasions. Features hand-boned corset framing, structural shoulder draping, and a dramatic floor-sweeping silk slit skirt.',
+    id: 'gretel-01',
+    title: 'The Aurelia Silk Evening Dress',
+    category: 'Dresses & Gowns',
+    tagline: 'Fitted top bodice with a long flowing silk skirt.',
+    description: 'A beautiful handmade evening dress made for weddings, galas, and special dinners. Made with high quality smooth silk, tailored to fit your body shape comfortably.',
     basePriceUSD: 850,
-    priceRange: '$850 - $1,200',
-    craftingTime: '7 - 10 Business Days',
+    priceRange: '₦80,000 - ₦150,000',
+    craftingTime: '5 - 7 Days',
     mainImage: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop',
     galleryImages: [
       'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop'
     ],
     fabrics: [
-      { id: 'f1', name: 'Heavyweight Mulberry Silk Dupioni', texture: 'Crisp, structured shine', colorHex: '#D4AF37' },
-      { id: 'f2', name: 'Italian Silk Stretch Satin', texture: 'Fluid, high luster draping', colorHex: '#1A1A1A' },
-      { id: 'f3', name: 'Champagne Organza & Silk Crepe', texture: 'Semi-sheer ethereal sheen', colorHex: '#E8E2D5' }
+      { id: 'f1', name: 'Gold Pure Silk', texture: 'Soft & shiny', colorHex: '#D4AF37' },
+      { id: 'f2', name: 'Black Stretch Satin', texture: 'Smooth & comfortable fit', colorHex: '#1A1A1A' },
+      { id: 'f3', name: 'Cream Organza Crepe', texture: 'Lightweight & elegant', colorHex: '#E8E2D5' }
     ],
     isFeatured: true,
     isNewArrival: true,
     details: [
-      'Custom waist boning & internal bra support',
-      'Hand-stitched hidden back zipper with covered silk buttons',
-      'Option for detachable train or custom slit height',
-      'Requires exact bust, waist, hip, and shoulder-to-floor measurements'
+      'Custom waist fitting for a comfortable fit',
+      'Hidden back zipper with neat stitching',
+      'Option for custom skirt length or slit height',
+      'Tailored to your exact measurements'
     ]
   },
   {
-    id: 'air-luxe-02',
-    title: 'Bespoke Monarch Double-Breasted Suit',
-    category: 'Bespoke Suits & Sets',
-    tagline: 'Sharply tailored power silhouette with peak lapels and gold-rimmed buttons.',
-    description: 'Designed for the modern connoisseur of fine tailoring. Hand-cut wool-cashmere blend with structured canvas chest lining, tapered high-waisted trousers, and silk lining.',
+    id: 'gretel-02',
+    title: 'Bespoke Double-Breasted Suit Set',
+    category: 'Suits & Sets',
+    tagline: 'Neatly tailored two-piece suit with stylish gold buttons.',
+    description: 'A modern, clean suit set made for work events, celebrations, or formal outings. Includes a fitted jacket and matching high-waisted trousers.',
     basePriceUSD: 720,
-    priceRange: '$720 - $980',
-    craftingTime: '6 - 8 Business Days',
+    priceRange: '₦75,000 - ₦120,000',
+    craftingTime: '5 - 7 Days',
     mainImage: 'https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000&auto=format&fit=crop',
     galleryImages: [
       'https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1000&auto=format&fit=crop'
     ],
     fabrics: [
-      { id: 'f4', name: 'Super 150s Italian Wool', texture: 'Ultra-refined smooth weave', colorHex: '#2B2B2B' },
-      { id: 'f5', name: 'Ivory Raw Silk Linen Blend', texture: 'Tactile luxury matte finish', colorHex: '#FDFBF7' },
-      { id: 'f6', name: 'Midnight Emerald Velvet', texture: 'Plush plush deep luster', colorHex: '#1B3B2B' }
+      { id: 'f4', name: 'Fine Italian Wool Blend', texture: 'Smooth & durable', colorHex: '#2B2B2B' },
+      { id: 'f5', name: 'Ivory Raw Silk Linen', texture: 'Crisp & classy matte', colorHex: '#FDFBF7' },
+      { id: 'f6', name: 'Emerald Green Velvet', texture: 'Rich & soft feel', colorHex: '#1B3B2B' }
     ],
     isFeatured: true,
     isNewArrival: false,
     details: [
-      'Fully lined in breathable cupro silk',
-      'Working sleeve buttonholes (surgeons cuffs)',
-      'Adjustable side tabs on high-rise trousers',
-      'Custom monogramming available inside jacket pocket'
+      'Fully lined inside for comfortable wear',
+      'High-waisted pants with waist adjustment tabs',
+      'Hand-stitched pocket details',
+      'Customized to your exact chest and waist sizes'
     ]
   },
   {
-    id: 'air-luxe-03',
-    title: 'Celeste Silk Draped Lounge Set',
-    category: 'Silk Luxury',
-    tagline: 'Effortless understated grandeur crafted in pure 22 momme Charmeuse silk.',
-    description: 'A liquid-feeling ensemble featuring a fluid asymmetrical tie wrap top paired with wide-leg flowing silk trousers. Designed for private galas, resort soirées, and elite gatherings.',
+    id: 'gretel-03',
+    title: 'Celeste Silk Two-Piece Wrap Set',
+    category: 'Silk & Loungewear',
+    tagline: 'Soft, easy-going silk set with wrap top and wide pants.',
+    description: 'An easy-to-wear luxury silk outfit featuring a wrap-tie top and relaxed wide-leg pants. Perfect for parties, dinners, and vacation wear.',
     basePriceUSD: 520,
-    priceRange: '$520 - $680',
-    craftingTime: '4 - 6 Business Days',
+    priceRange: '₦50,000 - ₦85,000',
+    craftingTime: '4 - 6 Days',
     mainImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop',
     galleryImages: [
       'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop',
       'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1000&auto=format&fit=crop'
     ],
     fabrics: [
-      { id: 'f7', name: '22 Momme Pure Silk Charmeuse', texture: 'Ultra-soft glossy feel', colorHex: '#C5A059' },
-      { id: 'f8', name: 'Pearl Sand Washed Silk', texture: 'Matte buttery touch', colorHex: '#E8E2D5' },
-      { id: 'f9', name: 'Obsidian Black Silk Satin', texture: 'Reflective deep contrast', colorHex: '#121212' }
+      { id: 'f7', name: 'Pure Gold Silk Charmeuse', texture: 'Super soft & shiny', colorHex: '#C5A059' },
+      { id: 'f8', name: 'Sand Beige Washed Silk', texture: 'Soft matte touch', colorHex: '#E8E2D5' },
+      { id: 'f9', name: 'Black Silk Satin', texture: 'Classic dark luster', colorHex: '#121212' }
     ],
     isFeatured: true,
     isNewArrival: true,
     details: [
-      'French seams throughout for zero skin friction',
-      'Elasticated rear waistband with flat tailored front panel',
-      'Includes matching silk waist sash',
-      'Machine hand-finish tailored hems'
+      'Clean interior stitching for extra comfort',
+      'Comfortable waist band that moves with you',
+      'Includes matching silk belt wrap',
+      'Hand-tailored hem length'
     ]
   },
   {
-    id: 'air-luxe-04',
-    title: 'The Sovereign Velvet & Brocade Caftan',
-    category: 'Red Carpet & Couture',
-    tagline: 'Regal regal silhouette embellished with hand-applied metallic thread work.',
-    description: 'An iconic Air_Luxe silhouette featuring heavy metallic thread embroidery along the neck collar, lapels, and cuffs over rich French silk velvet.',
+    id: 'gretel-04',
+    title: 'Embroidered Velvet Bubu Kaftan',
+    category: 'Special Occasion',
+    tagline: 'Elegant long kaftan with detailed gold thread work on collar.',
+    description: 'A traditional and modern mix kaftan made with rich velvet fabric and detailed gold embroidery along the neck and sleeves.',
     basePriceUSD: 950,
-    priceRange: '$950 - $1,400',
-    craftingTime: '8 - 12 Business Days',
+    priceRange: '₦90,000 - ₦160,000',
+    craftingTime: '6 - 9 Days',
     mainImage: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=1000&auto=format&fit=crop',
     galleryImages: [
-      'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?q=80&w=1000&auto=format&fit=crop'
     ],
     fabrics: [
-      { id: 'f10', name: 'French Silk Velvet with Gold Zari Thread', texture: 'Heavy plush with metallic shine', colorHex: '#8C1D24' },
-      { id: 'f11', name: 'Royal Navy Jacquard Brocade', texture: 'Structured raised pattern', colorHex: '#13294B' }
+      { id: 'f10', name: 'Deep Burgundy Velvet with Gold Work', texture: 'Rich & soft with metallic detail', colorHex: '#8C1D24' },
+      { id: 'f11', name: 'Royal Navy Brocade', texture: 'Patterned luxury fabric', colorHex: '#13294B' }
     ],
     isFeatured: false,
     isNewArrival: true,
     details: [
-      'Intricate bullion wire embroidery on lapels and sleeves',
-      'Concealed snap button closure along front line',
-      'Hand-tailored inner slip gown included',
-      'Custom length tailored specifically to height & footwear preference'
+      'Detailed gold embroidery around collar and sleeve cuffs',
+      'Easy snap buttons in front',
+      'Includes inner slip dress',
+      'Length tailored to your exact height'
     ]
   },
   {
-    id: 'air-luxe-05',
-    title: 'Elysian Sculpted Trench Coat',
-    category: 'Custom Outerwear',
-    tagline: 'Structural elegance meets everyday luxury in water-repellent cashmere-cotton.',
-    description: 'A bespoke tailored outerwear piece with dramatic oversized storm flaps, horn buttons, a cinched belt corset ring, and custom silk printed interior lining.',
+    id: 'gretel-05',
+    title: 'Tailored Luxury Trench Jacket',
+    category: 'Jackets & Coats',
+    tagline: 'Smart lightweight jacket with waist belt and clean collar.',
+    description: 'A stylish layered jacket crafted to wear over dresses or pants. Features double front buttons and a cinched waist belt.',
     basePriceUSD: 780,
-    priceRange: '$780 - $1,100',
-    craftingTime: '6 - 9 Business Days',
+    priceRange: '₦70,000 - ₦110,000',
+    craftingTime: '5 - 7 Days',
     mainImage: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop',
     galleryImages: [
-      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1548883354-7622d03aca27?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop'
     ],
     fabrics: [
-      { id: 'f12', name: 'English Gabardine Cashmere Blend', texture: 'Structure & warmth', colorHex: '#CBB297' },
-      { id: 'f13', name: 'Onyx Double-Weave Wool', texture: 'Dense high fashion drape', colorHex: '#1F1F1F' }
+      { id: 'f12', name: 'Camel Warm Cotton Blend', texture: 'Structured & comfy', colorHex: '#CBB297' },
+      { id: 'f13', name: 'Black Heavy Wool', texture: 'Warm & neat drape', colorHex: '#1F1F1F' }
     ],
     isFeatured: false,
     isNewArrival: false,
     details: [
-      'Double-breasted storm flap front',
-      'Genuine buffalo horn hardware & gold buckle',
-      'Deep welted fleece-lined side pockets',
-      'Made to exact shoulder and sleeve length'
+      'Double front button closure',
+      'Comes with waist belt & buckle',
+      'Deep side pockets',
+      'Made to your shoulder and arm length'
     ]
   },
   {
-    id: 'air-luxe-06',
-    title: 'Aphrodite Corseted Mermaid Gown',
-    category: 'Gowns & Evening Wear',
-    tagline: 'Hourglass contouring with sheer illusion mesh and hand-placed crystal accents.',
-    description: 'Sculpted to perfection. This custom gown features an internal steel-boned corset, delicate sheer mesh waist panels, and hand-beaded crystal vines cascading down a flared trumpet hem.',
+    id: 'gretel-06',
+    title: 'Corseted Mermaid Fit Gown',
+    category: 'Dresses & Gowns',
+    tagline: 'Figure-hugging dress with corset top and flared bottom.',
+    description: 'A stunning figure-shaping dress designed to give a lovely hourglass look. Features structured waist boning and a dramatic flared bottom hem.',
     basePriceUSD: 1100,
-    priceRange: '$1,100 - $1,650',
-    craftingTime: '10 - 14 Business Days',
+    priceRange: '₦100,000 - ₦180,000',
+    craftingTime: '7 - 10 Days',
     mainImage: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=1000&auto=format&fit=crop',
     galleryImages: [
-      'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1566174053879-31528523f8ae?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=1000&auto=format&fit=crop'
     ],
     fabrics: [
-      { id: 'f14', name: 'Italian Heavy Satin & Illusion Net', texture: 'Luxe sheen with invisible mesh', colorHex: '#FDFBF7' },
-      { id: 'f15', name: 'Nude Silk Tulle & Gold Embroidery', texture: 'Delicate embellished weave', colorHex: '#D4AF37' }
+      { id: 'f14', name: 'Ivory Satin & Sheer Mesh', texture: 'Shiny satin with soft mesh', colorHex: '#FDFBF7' },
+      { id: 'f15', name: 'Gold Beaded Silk Tulle', texture: 'Pretty glitter embroidery', colorHex: '#D4AF37' }
     ],
     isFeatured: true,
     isNewArrival: true,
     details: [
-      'Built-in waist reducer corset with lace-up back option',
-      'Hand-applied Swarowski crystal detailing',
-      'Horsehair braid hemline for dramatic flare retention',
-      'Complementary fitting consultation via WhatsApp video call'
+      'Internal waist corset support',
+      'Hand-applied sparkling crystal work',
+      'Flared bottom hemline for easy walking',
+      'Free measurement check on WhatsApp'
     ]
   }
 ];
 
 export const ATELIER_INFO = {
-  name: "Air_Luxe",
-  subBrand: "Gretel's Plug 2020",
-  tagline: "DRIVEN BY QUALIFYING AND CHOSEN BY THOSE WHO KNOW THE DIFFERENCE.",
-  est: "EST 2020",
-  whatsappNumber: "+2348000000000",
-  whatsappDisplay: "+234 800 000 0000",
-  instagram: "@air_luxe_gretelsplug",
-  email: "bespoke@airluxeatelier.com",
-  location: "Custom Atelier & Bespoke Studio",
+  name: "Gretel's Plug",
+  tagline: "Custom Made Outfits Tailored to Fit You Perfectly.",
+  whatsappNumber: "09161273360",
+  whatsappDisplay: "09161273360",
+  instagram: "@gretelsplug",
+  email: "orders@gretelsplug.com",
+  location: "Custom Fashion Studio & Fitting Atelier",
 };

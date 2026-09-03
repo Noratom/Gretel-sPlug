@@ -1,29 +1,31 @@
 import React, { useState, useMemo } from 'react';
 import { BespokeDesign, Category } from '../types/bespoke';
 import { DesignCard } from './DesignCard';
-import { Search, SlidersHorizontal, Scissors, Sparkles } from 'lucide-react';
+import { Search, SlidersHorizontal, Scissors, Sparkles, Upload } from 'lucide-react';
 
 interface CatalogProps {
   designs: BespokeDesign[];
   onSelectDesign: (design: BespokeDesign) => void;
   onQuickView: (design: BespokeDesign) => void;
+  onOpenCustomDesignModal: () => void;
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
 }
 
 const CATEGORIES: Category[] = [
   'All',
-  'Gowns & Evening Wear',
-  'Bespoke Suits & Sets',
-  'Silk Luxury',
-  'Red Carpet & Couture',
-  'Custom Outerwear'
+  'Dresses & Gowns',
+  'Suits & Sets',
+  'Silk & Loungewear',
+  'Special Occasion',
+  'Jackets & Coats'
 ];
 
 export const Catalog: React.FC<CatalogProps> = ({
   designs,
   onSelectDesign,
   onQuickView,
+  onOpenCustomDesignModal,
   selectedCategory,
   onCategoryChange
 }) => {
@@ -49,22 +51,33 @@ export const Catalog: React.FC<CatalogProps> = ({
     <section id="catalog" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Heading */}
       <div className="text-center space-y-3 mb-12">
-        <div className="inline-flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-[0.3em]">
+        <div className="inline-flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-[0.25em]">
           <Scissors className="w-3.5 h-3.5" />
-          <span>MADE-TO-MEASURE CATALOG</span>
+          <span>OUR CUSTOM CATALOG</span>
           <Scissors className="w-3.5 h-3.5" />
         </div>
         <h2 className="font-serif text-3xl sm:text-5xl font-bold text-charcoal">
-          Bespoke Outfits & Signature Silhouettes
+          Explore Outfits Made For You
         </h2>
-        <p className="text-charcoal/70 text-sm sm:text-base max-w-2xl mx-auto font-medium">
-          Select any design below to customize fabric, submit your precise body measurements, and order directly via WhatsApp.
+        <p className="text-charcoal/75 text-sm sm:text-base max-w-2xl mx-auto font-medium">
+          Select any outfit below to pick your favorite fabric color, enter your body measurements, and order directly on WhatsApp.
         </p>
+
+        {/* Banner for Custom Photo Request */}
+        <div className="pt-2">
+          <button
+            onClick={onOpenCustomDesignModal}
+            className="inline-flex items-center gap-2 bg-gold/20 hover:bg-gold text-charcoal px-5 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition border border-gold/40 shadow-xs"
+          >
+            <Upload className="w-3.5 h-3.5 text-gold-dark" />
+            <span>Don't see what you want? Upload your own design photo here!</span>
+          </button>
+        </div>
       </div>
 
-      {/* Controls Bar: Category Pills, Search, Sort */}
+      {/* Controls Bar */}
       <div className="space-y-6 mb-12">
-        {/* Category Pills Scrollable */}
+        {/* Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none justify-start md:justify-center">
           {CATEGORIES.map((cat) => (
             <button
@@ -81,14 +94,14 @@ export const Catalog: React.FC<CatalogProps> = ({
           ))}
         </div>
 
-        {/* Filter & Search Controls */}
+        {/* Filter & Search */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-cream-200/50 p-4 rounded-2xl border border-silk-taupe">
           {/* Search Input */}
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal/50" />
             <input
               type="text"
-              placeholder="Search design, silk, gown..."
+              placeholder="Search gown, suit, silk dress..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-cream-100 border border-silk-taupe pl-10 pr-4 py-2 rounded-xl text-xs font-medium text-charcoal placeholder:text-charcoal/40 focus:outline-none focus:border-gold"
@@ -98,7 +111,7 @@ export const Catalog: React.FC<CatalogProps> = ({
           {/* Sort & Count */}
           <div className="flex items-center justify-between w-full sm:w-auto gap-4">
             <span className="text-xs text-charcoal/60 font-medium">
-              Showing <strong className="text-charcoal font-bold">{filteredDesigns.length}</strong> creations
+              Showing <strong className="text-charcoal font-bold">{filteredDesigns.length}</strong> outfits
             </span>
 
             <div className="flex items-center gap-2">
@@ -108,7 +121,7 @@ export const Catalog: React.FC<CatalogProps> = ({
                 onChange={(e: any) => setSortOption(e.target.value)}
                 className="bg-cream-100 border border-silk-taupe text-charcoal text-xs font-semibold rounded-xl px-3 py-2 focus:outline-none focus:border-gold cursor-pointer"
               >
-                <option value="featured">Featured First</option>
+                <option value="featured">Featured Outfits</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
               </select>
@@ -130,18 +143,26 @@ export const Catalog: React.FC<CatalogProps> = ({
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 bg-cream-200/50 rounded-2xl border border-dashed border-silk-taupe p-8">
-          <Sparkles className="w-8 h-8 text-gold mx-auto mb-3" />
-          <h3 className="font-serif text-xl font-bold text-charcoal">No outfits match your search filter</h3>
-          <p className="text-xs text-charcoal/60 mt-1 max-w-md mx-auto">
-            Try adjusting your search criteria or explore our complete custom bespoke catalog.
+        <div className="text-center py-16 bg-cream-200/50 rounded-2xl border border-dashed border-silk-taupe p-8 space-y-4">
+          <Sparkles className="w-8 h-8 text-gold mx-auto" />
+          <h3 className="font-serif text-xl font-bold text-charcoal">No outfits match your search</h3>
+          <p className="text-xs text-charcoal/60 max-w-md mx-auto">
+            You can clear your search or send us a picture of the exact design you want!
           </p>
-          <button
-            onClick={() => { onCategoryChange('All'); setSearchQuery(''); }}
-            className="mt-4 bg-charcoal text-cream-100 text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full hover:bg-gold hover:text-charcoal transition"
-          >
-            Reset Filters
-          </button>
+          <div className="flex items-center justify-center gap-3">
+            <button
+              onClick={() => { onCategoryChange('All'); setSearchQuery(''); }}
+              className="bg-charcoal text-cream-100 text-xs font-bold uppercase tracking-wider px-6 py-2.5 rounded-full hover:bg-gold hover:text-charcoal transition"
+            >
+              Reset Search Filters
+            </button>
+            <button
+              onClick={onOpenCustomDesignModal}
+              className="bg-gold text-charcoal text-xs font-extrabold uppercase tracking-wider px-6 py-2.5 rounded-full hover:bg-gold-dark transition shadow-sm"
+            >
+              Send Your Own Design Photo
+            </button>
+          </div>
         </div>
       )}
     </section>
