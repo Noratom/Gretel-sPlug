@@ -32,19 +32,26 @@ export interface BespokeDesign {
 }
 
 export interface CustomMeasurements {
-  shoulder: string;
-  bustChest: string;
-  nipToNip: string;
-  bustPoint: string;
-  underbust: string;
-  halfCut: string;
-  waistNavel: string;
-  hip: string;
-  thigh: string;
-  totalHeight: string;
-  totalLength: string;
-  sleeves: string;
-  sleeveRoundCurve: string;
+  bust: string;
+  underBust: string;
+  waist: string;
+  highHip: string;
+  hipFull: string;
+  shoulderWidth: string;
+  backWidth: string;
+  frontLength: string;
+  backLength: string;
+  sleeveLength: string;
+  armhole: string;
+  bicep: string;
+  wrist: string;
+  neck: string;
+  waistToHip: string;
+  waistToKnee: string;
+  waistToAnkle: string;
+  crotchLength: string;
+  outseamLength: string;
+  inseamLength: string;
   additionalNotes: string;
 }
 

@@ -23,19 +23,26 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
   const [standardSize, setStandardSize] = useState<string>('M');
 
   const [measurements, setMeasurements] = useState<CustomMeasurements>({
-    shoulder: '',
-    bustChest: '',
-    nipToNip: '',
-    bustPoint: '',
-    underbust: '',
-    halfCut: '',
-    waistNavel: '',
-    hip: '',
-    thigh: '',
-    totalHeight: '',
-    totalLength: '',
-    sleeves: '',
-    sleeveRoundCurve: '',
+    bust: '',
+    underBust: '',
+    waist: '',
+    highHip: '',
+    hipFull: '',
+    shoulderWidth: '',
+    backWidth: '',
+    frontLength: '',
+    backLength: '',
+    sleeveLength: '',
+    armhole: '',
+    bicep: '',
+    wrist: '',
+    neck: '',
+    waistToHip: '',
+    waistToKnee: '',
+    waistToAnkle: '',
+    crotchLength: '',
+    outseamLength: '',
+    inseamLength: '',
     additionalNotes: ''
   });
 
@@ -157,7 +164,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             </div>
           </div>
 
-          {/* Section 2: 13 Tailor Body Measurements */}
+          {/* Section 2: 20 Body Measurements */}
           <div className="space-y-4 pt-2 border-t border-silk-taupe/60">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
@@ -170,7 +177,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 onClick={onOpenMeasurementGuide}
                 className="text-[11px] font-bold text-gold-dark hover:underline flex items-center gap-1"
               >
-                <span>View Measurement Guide</span>
+                <span>View Visual Diagram & Guide</span>
               </button>
             </div>
 
@@ -185,7 +192,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                     : 'text-charcoal/70 hover:text-charcoal'
                 }`}
               >
-                Custom Measurements (Recommended)
+                Custom Body Measurements (Recommended)
               </button>
               <button
                 type="button"
@@ -221,152 +228,229 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 </div>
               </div>
             ) : (
-              /* All 13 Tailor Measurement Fields */
+              /* All 20 Visual Body Measurement Inputs */
               <div className="p-5 bg-cream-200/50 rounded-2xl border border-silk-taupe space-y-4">
                 <p className="text-xs font-semibold text-charcoal/80">
-                  Enter your measurements in inches or cm (leave blank if unsure, tailors will verify on WhatsApp):
+                  Enter your measurements in inches or cm (leave any blank if unsure, tailors will verify on WhatsApp):
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">1. Shoulder</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 15.5 in"
-                      value={measurements.shoulder}
-                      onChange={(e) => handleInputChange('shoulder', e.target.value)}
-                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">2. Bust / Chest</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">1. Bust</label>
                     <input
                       type="text"
                       placeholder="e.g. 36 in"
-                      value={measurements.bustChest}
-                      onChange={(e) => handleInputChange('bustChest', e.target.value)}
+                      value={measurements.bust}
+                      onChange={(e) => handleInputChange('bust', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">3. Nip-Nip</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 7.5 in"
-                      value={measurements.nipToNip}
-                      onChange={(e) => handleInputChange('nipToNip', e.target.value)}
-                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">4. Bust Point</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 10.5 in"
-                      value={measurements.bustPoint}
-                      onChange={(e) => handleInputChange('bustPoint', e.target.value)}
-                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">5. Underbust</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">2. Under Bust</label>
                     <input
                       type="text"
                       placeholder="e.g. 30 in"
-                      value={measurements.underbust}
-                      onChange={(e) => handleInputChange('underbust', e.target.value)}
+                      value={measurements.underBust}
+                      onChange={(e) => handleInputChange('underBust', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">6. Half-Cut</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 16 in"
-                      value={measurements.halfCut}
-                      onChange={(e) => handleInputChange('halfCut', e.target.value)}
-                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">7. Waist / Navel</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">3. Waist</label>
                     <input
                       type="text"
                       placeholder="e.g. 28 in"
-                      value={measurements.waistNavel}
-                      onChange={(e) => handleInputChange('waistNavel', e.target.value)}
+                      value={measurements.waist}
+                      onChange={(e) => handleInputChange('waist', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">8. Hip</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">4. High Hip</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 34 in"
+                      value={measurements.highHip}
+                      onChange={(e) => handleInputChange('highHip', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">5. Hip (Full)</label>
                     <input
                       type="text"
                       placeholder="e.g. 40 in"
-                      value={measurements.hip}
-                      onChange={(e) => handleInputChange('hip', e.target.value)}
+                      value={measurements.hipFull}
+                      onChange={(e) => handleInputChange('hipFull', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">9. Thigh</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">6. Shoulder Width</label>
                     <input
                       type="text"
-                      placeholder="e.g. 23 in"
-                      value={measurements.thigh}
-                      onChange={(e) => handleInputChange('thigh', e.target.value)}
+                      placeholder="e.g. 15.5 in"
+                      value={measurements.shoulderWidth}
+                      onChange={(e) => handleInputChange('shoulderWidth', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">10. Height</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">7. Back Width</label>
                     <input
                       type="text"
-                      placeholder="e.g. 5 ft 8 in"
-                      value={measurements.totalHeight}
-                      onChange={(e) => handleInputChange('totalHeight', e.target.value)}
+                      placeholder="e.g. 14 in"
+                      value={measurements.backWidth}
+                      onChange={(e) => handleInputChange('backWidth', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">11. Total Length</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">8. Front Length</label>
                     <input
                       type="text"
-                      placeholder="e.g. 60 in (Floor)"
-                      value={measurements.totalLength}
-                      onChange={(e) => handleInputChange('totalLength', e.target.value)}
+                      placeholder="e.g. 16.5 in"
+                      value={measurements.frontLength}
+                      onChange={(e) => handleInputChange('frontLength', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">12. Sleeves</label>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">9. Back Length</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 15 in"
+                      value={measurements.backLength}
+                      onChange={(e) => handleInputChange('backLength', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">10. Sleeve Length</label>
                     <input
                       type="text"
                       placeholder="e.g. 24 in"
-                      value={measurements.sleeves}
-                      onChange={(e) => handleInputChange('sleeves', e.target.value)}
+                      value={measurements.sleeveLength}
+                      onChange={(e) => handleInputChange('sleeveLength', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
-                  <div className="col-span-2 sm:col-span-3 lg:col-span-4">
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">13. Sleeve Round Curve (Armhole / Bicep)</label>
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">11. Armhole</label>
                     <input
                       type="text"
-                      placeholder="e.g. 13.5 in"
-                      value={measurements.sleeveRoundCurve}
-                      onChange={(e) => handleInputChange('sleeveRoundCurve', e.target.value)}
+                      placeholder="e.g. 17 in"
+                      value={measurements.armhole}
+                      onChange={(e) => handleInputChange('armhole', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">12. Bicep</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 13 in"
+                      value={measurements.bicep}
+                      onChange={(e) => handleInputChange('bicep', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">13. Wrist</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 7 in"
+                      value={measurements.wrist}
+                      onChange={(e) => handleInputChange('wrist', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">14. Neck</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 14 in"
+                      value={measurements.neck}
+                      onChange={(e) => handleInputChange('neck', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">15. Waist to Hip</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 8 in"
+                      value={measurements.waistToHip}
+                      onChange={(e) => handleInputChange('waistToHip', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">16. Waist to Knee</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 23 in"
+                      value={measurements.waistToKnee}
+                      onChange={(e) => handleInputChange('waistToKnee', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">17. Waist to Ankle</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 40 in"
+                      value={measurements.waistToAnkle}
+                      onChange={(e) => handleInputChange('waistToAnkle', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">18. Crotch Length</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 26 in"
+                      value={measurements.crotchLength}
+                      onChange={(e) => handleInputChange('crotchLength', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">19. Outseam Length</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 42 in"
+                      value={measurements.outseamLength}
+                      onChange={(e) => handleInputChange('outseamLength', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal block mb-1">20. Inseam Length</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 31 in"
+                      value={measurements.inseamLength}
+                      onChange={(e) => handleInputChange('inseamLength', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>

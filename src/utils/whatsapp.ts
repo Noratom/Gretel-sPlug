@@ -32,19 +32,26 @@ export function formatWhatsAppMessage(order: BespokeOrderState): string {
 
   if (sizeMode === 'custom' && measurements) {
     const m = measurements;
-    if (m.shoulder) msg += `• Shoulder: ${m.shoulder}\n`;
-    if (m.bustChest) msg += `• Bust / Chest: ${m.bustChest}\n`;
-    if (m.nipToNip) msg += `• Nip-Nip: ${m.nipToNip}\n`;
-    if (m.bustPoint) msg += `• Bust Point: ${m.bustPoint}\n`;
-    if (m.underbust) msg += `• Underbust: ${m.underbust}\n`;
-    if (m.halfCut) msg += `• Half-Cut: ${m.halfCut}\n`;
-    if (m.waistNavel) msg += `• Waist / Navel: ${m.waistNavel}\n`;
-    if (m.hip) msg += `• Hip: ${m.hip}\n`;
-    if (m.thigh) msg += `• Thigh: ${m.thigh}\n`;
-    if (m.totalHeight) msg += `• Height: ${m.totalHeight}\n`;
-    if (m.totalLength) msg += `• Total Length: ${m.totalLength}\n`;
-    if (m.sleeves) msg += `• Sleeves: ${m.sleeves}\n`;
-    if (m.sleeveRoundCurve) msg += `• Sleeve Round Curve: ${m.sleeveRoundCurve}\n`;
+    if (m.bust) msg += `• 1. Bust: ${m.bust}\n`;
+    if (m.underBust) msg += `• 2. Under Bust: ${m.underBust}\n`;
+    if (m.waist) msg += `• 3. Waist: ${m.waist}\n`;
+    if (m.highHip) msg += `• 4. High Hip: ${m.highHip}\n`;
+    if (m.hipFull) msg += `• 5. Hip (Full): ${m.hipFull}\n`;
+    if (m.shoulderWidth) msg += `• 6. Shoulder Width: ${m.shoulderWidth}\n`;
+    if (m.backWidth) msg += `• 7. Back Width: ${m.backWidth}\n`;
+    if (m.frontLength) msg += `• 8. Front Length: ${m.frontLength}\n`;
+    if (m.backLength) msg += `• 9. Back Length: ${m.backLength}\n`;
+    if (m.sleeveLength) msg += `• 10. Sleeve Length: ${m.sleeveLength}\n`;
+    if (m.armhole) msg += `• 11. Armhole: ${m.armhole}\n`;
+    if (m.bicep) msg += `• 12. Bicep: ${m.bicep}\n`;
+    if (m.wrist) msg += `• 13. Wrist: ${m.wrist}\n`;
+    if (m.neck) msg += `• 14. Neck: ${m.neck}\n`;
+    if (m.waistToHip) msg += `• 15. Waist to Hip: ${m.waistToHip}\n`;
+    if (m.waistToKnee) msg += `• 16. Waist to Knee: ${m.waistToKnee}\n`;
+    if (m.waistToAnkle) msg += `• 17. Waist to Ankle: ${m.waistToAnkle}\n`;
+    if (m.crotchLength) msg += `• 18. Crotch Length: ${m.crotchLength}\n`;
+    if (m.outseamLength) msg += `• 19. Outseam Length: ${m.outseamLength}\n`;
+    if (m.inseamLength) msg += `• 20. Inseam Length: ${m.inseamLength}\n`;
   }
 
   if (measurements.additionalNotes) {
@@ -75,19 +82,26 @@ export function formatCustomDesignWhatsAppMessage(request: CustomDesignRequestSt
 
   if (request.sizeMode === 'custom' && request.measurements) {
     const m = request.measurements;
-    if (m.shoulder) msg += `• Shoulder: ${m.shoulder}\n`;
-    if (m.bustChest) msg += `• Bust / Chest: ${m.bustChest}\n`;
-    if (m.nipToNip) msg += `• Nip-Nip: ${m.nipToNip}\n`;
-    if (m.bustPoint) msg += `• Bust Point: ${m.bustPoint}\n`;
-    if (m.underbust) msg += `• Underbust: ${m.underbust}\n`;
-    if (m.halfCut) msg += `• Half-Cut: ${m.halfCut}\n`;
-    if (m.waistNavel) msg += `• Waist / Navel: ${m.waistNavel}\n`;
-    if (m.hip) msg += `• Hip: ${m.hip}\n`;
-    if (m.thigh) msg += `• Thigh: ${m.thigh}\n`;
-    if (m.totalHeight) msg += `• Height: ${m.totalHeight}\n`;
-    if (m.totalLength) msg += `• Total Length: ${m.totalLength}\n`;
-    if (m.sleeves) msg += `• Sleeves: ${m.sleeves}\n`;
-    if (m.sleeveRoundCurve) msg += `• Sleeve Round Curve: ${m.sleeveRoundCurve}\n`;
+    if (m.bust) msg += `• 1. Bust: ${m.bust}\n`;
+    if (m.underBust) msg += `• 2. Under Bust: ${m.underBust}\n`;
+    if (m.waist) msg += `• 3. Waist: ${m.waist}\n`;
+    if (m.highHip) msg += `• 4. High Hip: ${m.highHip}\n`;
+    if (m.hipFull) msg += `• 5. Hip (Full): ${m.hipFull}\n`;
+    if (m.shoulderWidth) msg += `• 6. Shoulder Width: ${m.shoulderWidth}\n`;
+    if (m.backWidth) msg += `• 7. Back Width: ${m.backWidth}\n`;
+    if (m.frontLength) msg += `• 8. Front Length: ${m.frontLength}\n`;
+    if (m.backLength) msg += `• 9. Back Length: ${m.backLength}\n`;
+    if (m.sleeveLength) msg += `• 10. Sleeve Length: ${m.sleeveLength}\n`;
+    if (m.armhole) msg += `• 11. Armhole: ${m.armhole}\n`;
+    if (m.bicep) msg += `• 12. Bicep: ${m.bicep}\n`;
+    if (m.wrist) msg += `• 13. Wrist: ${m.wrist}\n`;
+    if (m.neck) msg += `• 14. Neck: ${m.neck}\n`;
+    if (m.waistToHip) msg += `• 15. Waist to Hip: ${m.waistToHip}\n`;
+    if (m.waistToKnee) msg += `• 16. Waist to Knee: ${m.waistToKnee}\n`;
+    if (m.waistToAnkle) msg += `• 17. Waist to Ankle: ${m.waistToAnkle}\n`;
+    if (m.crotchLength) msg += `• 18. Crotch Length: ${m.crotchLength}\n`;
+    if (m.outseamLength) msg += `• 19. Outseam Length: ${m.outseamLength}\n`;
+    if (m.inseamLength) msg += `• 20. Inseam Length: ${m.inseamLength}\n`;
   }
 
   msg += `\n👤 *CUSTOMER INFO:*\n`;
