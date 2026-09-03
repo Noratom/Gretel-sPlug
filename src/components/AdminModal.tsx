@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { BespokeDesign, Category } from '../types/bespoke';
-import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon } from 'lucide-react';
+import { X, Plus, Trash2, Edit3, Save, Sparkles, Settings, MessageCircle, Lock, Upload, Image as ImageIcon, Database, CheckCircle2 } from 'lucide-react';
 import { compressImageFile } from '../utils/imageCompressor';
+import { getSupabaseCredentials, saveSupabaseCredentials } from '../services/db';
 
 interface AdminModalProps {
   designs: BespokeDesign[];
@@ -35,6 +36,11 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [phoneInput, setPhoneInput] = useState(whatsappNumber);
   const [pinInput, setPinInput] = useState(adminPin);
   const [isUploading, setIsUploading] = useState(false);
+
+  // Supabase Credentials State
+  const initialCreds = getSupabaseCredentials();
+  const [dbUrl, setDbUrl] = useState(initialCreds.url);
+  const [dbKey, setDbKey] = useState(initialCreds.key);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -151,7 +157,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     e.preventDefault();
     onSaveWhatsappNumber(phoneInput);
     onSaveAdminPin(pinInput);
-    alert('WhatsApp contact number and passcode updated!');
+    saveSupabaseCredentials(dbUrl, dbKey);
+    alert('WhatsApp contact number, passcode, and cloud database settings saved!');
   };
 
   return (
@@ -181,7 +188,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 onClick={() => setActiveTab('settings')}
                 className={`px-3 py-1.5 rounded-md transition ${activeTab === 'settings' ? 'bg-gold text-charcoal' : 'text-cream-100 hover:text-gold'}`}
               >
-                Settings & Phone
+                Settings & Database
               </button>
             </div>
 
@@ -205,14 +212,14 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
         {/* Modal Content Body */}
         {activeTab === 'settings' ? (
-          <form onSubmit={handleSettingsSubmit} className="p-8 space-y-6 overflow-y-auto flex-1 max-w-xl mx-auto w-full">
+          <form onSubmit={handleSettingsSubmit} className="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1 max-w-2xl mx-auto w-full">
             <div className="space-y-2 text-center">
               <div className="w-12 h-12 rounded-full bg-gold/20 flex items-center justify-center mx-auto text-gold">
                 <Settings className="w-6 h-6" />
               </div>
-              <h4 className="font-serif text-2xl font-bold">WhatsApp & Passcode Settings</h4>
+              <h4 className="font-serif text-2xl font-bold">Atelier Settings & Cloud Database</h4>
               <p className="text-xs text-charcoal/70">
-                Update your official WhatsApp contact number and admin passcode.
+                Configure your official WhatsApp contact number, admin passcode, and real-time cloud database.
               </p>
             </div>
 
@@ -229,9 +236,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   onChange={(e) => setPhoneInput(e.target.value)}
                   className="w-full bg-cream-200 border border-silk-taupe px-4 py-3 rounded-xl text-sm font-semibold focus:outline-none focus:border-gold"
                 />
-                <p className="text-[11px] text-charcoal/60">
-                  Default: <code>09161273360</code>. Works with both local numbers and international codes.
-                </p>
               </div>
 
               <div className="space-y-2">
@@ -247,6 +251,45 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   className="w-full bg-cream-200 border border-silk-taupe px-4 py-3 rounded-xl text-sm font-bold tracking-widest focus:outline-none focus:border-gold"
                 />
               </div>
+
+              {/* Cloud Database Section (Supabase) */}
+              <div className="space-y-3 p-5 bg-cream-200/70 rounded-2xl border border-gold/40">
+                <label className="text-xs font-extrabold uppercase tracking-wider flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Database className="w-4 h-4 text-gold" />
+                    Cloud Real-Time Sync (Free Supabase DB)
+                  </span>
+                  <span className="text-[10px] text-gold-dark font-bold">Optional</span>
+                </label>
+
+                <p className="text-xs text-charcoal/75 leading-relaxed">
+                  Connecting Supabase allows any outfit you add or edit on your phone to update live for <strong>all customers worldwide</strong> on their own devices.
+                </p>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-[11px] font-bold uppercase block mb-1">Supabase Project URL</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. https://xyz.supabase.co"
+                      value={dbUrl}
+                      onChange={(e) => setDbUrl(e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3.5 py-2.5 rounded-xl text-xs font-mono"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold uppercase block mb-1">Supabase Anon Key</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. eyJhbGciOiJIUzI1NiIsInR5cCI6..."
+                      value={dbKey}
+                      onChange={(e) => setDbKey(e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3.5 py-2.5 rounded-xl text-xs font-mono"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <button
@@ -254,7 +297,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
               className="w-full flex items-center justify-center gap-2 bg-gold hover:bg-gold-dark text-charcoal py-3.5 rounded-full text-xs font-extrabold uppercase tracking-[0.2em] shadow-md transition"
             >
               <Save className="w-4 h-4" />
-              Save Settings
+              Save Settings & Credentials
             </button>
           </form>
         ) : (

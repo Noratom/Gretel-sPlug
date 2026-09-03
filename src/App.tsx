@@ -14,27 +14,22 @@ import { AdminAuthModal } from './components/AdminAuthModal';
 import { BespokeDesign } from './types/bespoke';
 import { BESPOKE_DESIGNS } from './data/designs';
 import { DEFAULT_WHATSAPP_NUMBER } from './utils/whatsapp';
+import { fetchCatalogDesigns, syncCatalogDesigns, deleteCatalogDesignFromCloud } from './services/db';
 
-const STORAGE_KEY_DESIGNS = 'GRETELS_PLUG_DESIGNS';
 const STORAGE_KEY_PHONE = 'GRETELS_PLUG_WHATSAPP';
 const STORAGE_KEY_PIN = 'GRETELS_PLUG_ADMIN_PIN';
 
 export function App() {
-  // Load initial designs from LocalStorage or default dataset
-  const [designs, setDesigns] = useState<BespokeDesign[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY_DESIGNS);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      } catch (e) {
-        console.error('Failed to parse saved designs', e);
+  const [designs, setDesigns] = useState<BespokeDesign[]>(BESPOKE_DESIGNS);
+
+  // Load catalog designs on mount (from Cloud DB or localStorage fallback)
+  useEffect(() => {
+    fetchCatalogDesigns().then((loadedDesigns) => {
+      if (loadedDesigns && loadedDesigns.length > 0) {
+        setDesigns(loadedDesigns);
       }
-    }
-    return BESPOKE_DESIGNS;
-  });
+    });
+  }, []);
 
   // Load WhatsApp phone number (Default: '09161273360')
   const [whatsappNumber, setWhatsappNumber] = useState<string>(() => {
@@ -66,15 +61,10 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Save designs state to LocalStorage with robust error checking
+  // Save designs state and sync to Cloud DB + LocalStorage
   const handleSaveDesigns = (updatedDesigns: BespokeDesign[]) => {
     setDesigns(updatedDesigns);
-    try {
-      localStorage.setItem(STORAGE_KEY_DESIGNS, JSON.stringify(updatedDesigns));
-    } catch (e) {
-      console.error('LocalStorage save error:', e);
-      alert('Note: Storage warning - your product changes are saved for this session!');
-    }
+    syncCatalogDesigns(updatedDesigns);
   };
 
   // Save WhatsApp number
