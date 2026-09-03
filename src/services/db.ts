@@ -6,9 +6,11 @@ const STORAGE_KEY_DESIGNS = 'GRETELS_PLUG_DESIGNS';
 const STORAGE_KEY_SUPABASE_URL = 'GRETELS_PLUG_SUPABASE_URL';
 const STORAGE_KEY_SUPABASE_KEY = 'GRETELS_PLUG_SUPABASE_KEY';
 
+export const DEFAULT_SUPABASE_URL = 'https://ofvkcrmodfxytghoxnhi.supabase.co';
+
 export function getSupabaseCredentials(): { url: string; key: string } {
   const metaEnv = (import.meta as any).env || {};
-  const url = metaEnv.VITE_SUPABASE_URL || localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || '';
+  const url = metaEnv.VITE_SUPABASE_URL || localStorage.getItem(STORAGE_KEY_SUPABASE_URL) || DEFAULT_SUPABASE_URL;
   const key = metaEnv.VITE_SUPABASE_ANON_KEY || localStorage.getItem(STORAGE_KEY_SUPABASE_KEY) || '';
   return { url, key };
 }
