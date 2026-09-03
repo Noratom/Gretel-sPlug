@@ -42,16 +42,17 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
     { num: 20, title: "Inseam Length", desc: "Measure from crotch down inside of leg to ankle." }
   ];
 
-  const standardSizeChart = [
-    { size: "XS", waist: "24 - 25 in", hips: "34 - 35 in", length: "20 - 21 in" },
-    { size: "S", waist: "26 - 27 in", hips: "36 - 37 in", length: "20 - 21 in" },
-    { size: "M", waist: "28 - 29 in", hips: "38 - 39 in", length: "21 - 22 in" },
-    { size: "L", waist: "30 - 31 in", hips: "40 - 41 in", length: "22 - 23 in" },
-    { size: "XL", waist: "32 - 34 in", hips: "42 - 44 in", length: "22 - 23 in" },
-    { size: "2XL", waist: "35 - 37 in", hips: "45 - 47 in", length: "23 - 24 in" },
-    { size: "3XL", waist: "38 - 40 in", hips: "48 - 50 in", length: "23 - 24 in" },
-    { size: "4XL", waist: "41 - 43 in", hips: "51 - 53 in", length: "24 - 25 in" },
-    { size: "5XL", waist: "44 - 46 in", hips: "54 - 56 in", length: "25 - 26 in" }
+  // Official Air_Luxe Couture Ladies Fashion Size Chart (UK 4 - 20)
+  const airLuxeSizeChart = [
+    { ukSize: "4", bust: '30"', waist: '23"', hip: '33"' },
+    { ukSize: "6", bust: '32"', waist: '25"', hip: '35"' },
+    { ukSize: "8", bust: '34"', waist: '27"', hip: '37"' },
+    { ukSize: "10", bust: '36"', waist: '29"', hip: '39"' },
+    { ukSize: "12", bust: '38"', waist: '31"', hip: '41"' },
+    { ukSize: "14", bust: '40"', waist: '33"', hip: '43"' },
+    { ukSize: "16", bust: '42"', waist: '35"', hip: '45"' },
+    { ukSize: "18", bust: '44"', waist: '37"', hip: '47"' },
+    { ukSize: "20", bust: '46"', waist: '39"', hip: '49"' }
   ];
 
   return (
@@ -84,7 +85,7 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
                 }`}
               >
                 <Table className="w-3.5 h-3.5" />
-                <span>Standard Size Chart</span>
+                <span>Air_Luxe Size Chart</span>
               </button>
 
               <button
@@ -117,49 +118,60 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
             <div className="flex items-center gap-3">
               <Sparkles className="w-5 h-5 text-gold shrink-0" />
               <p className="font-medium">
-                <strong>Fitting Tip:</strong> Switch between the <strong>Standard Size Chart (XS - 5XL)</strong> and the <strong>20-Point Body Measurement Diagram</strong> below. You can order using standard sizes or custom body numbers!
+                <strong>Air_Luxe Fitting Note:</strong> All measurements are in inches. Kindly check your body measurements against our UK Size Chart (UK 4 - UK 20) before placing your order!
               </p>
             </div>
           </div>
 
-          {/* TAB 1: Compartmentalized Standard Size Chart Table */}
+          {/* TAB 1: Official Air_Luxe Size Chart */}
           {activeTab === 'size-chart' && (
-            <div className="space-y-4 animate-fadeIn">
+            <div className="space-y-6 animate-fadeIn">
               <div className="flex items-center justify-between border-b border-silk-taupe pb-3">
                 <div>
-                  <h4 className="font-serif text-2xl font-bold text-charcoal">Standard Size Chart (XS to 5XL)</h4>
-                  <p className="text-xs text-charcoal/70">Official standard dimensions for skirts, dresses, and outfits</p>
+                  <h4 className="font-serif text-2xl font-bold text-charcoal">Air_Luxe Couture Ladies Size Chart</h4>
+                  <p className="text-xs text-charcoal/70">Official UK Size dimensions (All measurements in inches)</p>
                 </div>
                 <span className="text-xs text-gold-dark font-sans uppercase font-bold bg-gold/10 px-3 py-1 rounded-full border border-gold/30">
-                  XS — 5XL TABLE
+                  UK 4 — UK 20
                 </span>
               </div>
 
-              {/* Full-width clean size table */}
-              <div className="overflow-x-auto rounded-2xl border border-gold/40 shadow-md bg-cream-100">
-                <table className="w-full text-xs text-left">
-                  <thead className="bg-charcoal text-gold font-bold uppercase tracking-wider text-[12px] border-b border-gold/40">
-                    <tr>
-                      <th className="py-4 px-6">Size</th>
-                      <th className="py-4 px-6">Waist Circumference (Inches)</th>
-                      <th className="py-4 px-6">Hips Circumference (Inches)</th>
-                      <th className="py-4 px-6">Outfit Length (Inches)</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-silk-taupe/60 font-semibold text-charcoal text-sm">
-                    {standardSizeChart.map((row, idx) => (
-                      <tr 
-                        key={row.size} 
-                        className={`transition ${idx % 2 === 0 ? 'bg-cream-100' : 'bg-cream-200/40'} hover:bg-gold/15`}
-                      >
-                        <td className="py-3.5 px-6 font-extrabold text-gold-dark font-serif text-base">{row.size}</td>
-                        <td className="py-3.5 px-6 font-medium">{row.waist}</td>
-                        <td className="py-3.5 px-6 font-medium">{row.hips}</td>
-                        <td className="py-3.5 px-6 font-medium">{row.length}</td>
+              {/* Full-width clean size table + Official Chart Card */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div className="overflow-x-auto rounded-2xl border border-gold/40 shadow-md bg-cream-100">
+                  <table className="w-full text-xs text-left">
+                    <thead className="bg-charcoal text-gold font-bold uppercase tracking-wider text-[12px] border-b border-gold/40">
+                      <tr>
+                        <th className="py-3.5 px-4">UK Size</th>
+                        <th className="py-3.5 px-4">Bust (in)</th>
+                        <th className="py-3.5 px-4">Waist (in)</th>
+                        <th className="py-3.5 px-4">Hip (in)</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-silk-taupe/60 font-semibold text-charcoal text-sm">
+                      {airLuxeSizeChart.map((row, idx) => (
+                        <tr 
+                          key={row.ukSize} 
+                          className={`transition ${idx % 2 === 0 ? 'bg-cream-100' : 'bg-cream-200/40'} hover:bg-gold/15`}
+                        >
+                          <td className="py-2.5 px-4 font-extrabold text-gold-dark font-serif text-base">UK {row.ukSize}</td>
+                          <td className="py-2.5 px-4 font-medium">{row.bust}</td>
+                          <td className="py-2.5 px-4 font-medium">{row.waist}</td>
+                          <td className="py-2.5 px-4 font-medium">{row.hip}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Air_Luxe Couture Size Chart Diagram Card */}
+                <div className="rounded-2xl overflow-hidden border border-gold/30 shadow-md bg-white p-2 text-center">
+                  <img
+                    src="/air-luxe-size-chart.jpg"
+                    alt="Air_Luxe Couture Official Size Chart"
+                    className="w-full h-auto max-h-[420px] object-contain rounded-xl mx-auto"
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -219,7 +231,7 @@ export const MeasurementGuideModal: React.FC<MeasurementGuideModalProps> = ({ on
           <div className="flex items-center gap-2 text-xs font-bold text-charcoal/70">
             <span>Viewing:</span>
             <span className="text-gold-dark font-extrabold uppercase">
-              {activeTab === 'size-chart' ? 'Standard Size Chart (XS - 5XL)' : '20-Point Body Diagram'}
+              {activeTab === 'size-chart' ? 'Air_Luxe UK Size Chart (UK 4 - UK 20)' : '20-Point Body Diagram'}
             </span>
           </div>
 

@@ -1,14 +1,14 @@
 import { BespokeOrderState, CustomDesignRequestState } from '../types/bespoke';
 
 // Default WhatsApp Phone Number for Gretel's Plug / Air_Luxe
-export const DEFAULT_WHATSAPP_NUMBER = '09161273360';
+export const DEFAULT_WHATSAPP_NUMBER = '08088517919';
 
 export function cleanPhoneNumber(phone: string): string {
   let cleaned = phone.replace(/[^0-9]/g, '');
   if (cleaned.startsWith('0') && cleaned.length === 11) {
     cleaned = '234' + cleaned.slice(1);
   }
-  return cleaned || '2349161273360';
+  return cleaned || '2348088517919';
 }
 
 export function formatWhatsAppMessage(order: BespokeOrderState): string {
@@ -28,7 +28,7 @@ export function formatWhatsAppMessage(order: BespokeOrderState): string {
     msg += `• *Fabric Choice:* ${selectedFabric.name} (${selectedFabric.texture})\n`;
   }
 
-  msg += `\n📐 *YOUR SIZING:* ${sizeMode === 'standard' ? `Standard Size [ ${standardSize} ]` : 'CUSTOM BODY MEASUREMENTS'}\n`;
+  msg += `\n📐 *YOUR SIZING:* ${sizeMode === 'standard' ? `Standard UK Size [ ${standardSize} ]` : 'CUSTOM BODY MEASUREMENTS'}\n`;
 
   if (sizeMode === 'custom' && measurements) {
     const m = measurements;
@@ -78,7 +78,7 @@ export function formatCustomDesignWhatsAppMessage(request: CustomDesignRequestSt
   if (request.budgetRange) msg += `• *Budget:* ${request.budgetRange}\n`;
   if (request.neededDate) msg += `• *Target Delivery Date:* ${request.neededDate}\n`;
 
-  msg += `\n📐 *FIT & SIZING:* ${request.sizeMode === 'standard' ? `Standard Size [ ${request.standardSize} ]` : 'CUSTOM MEASUREMENTS'}\n`;
+  msg += `\n📐 *FIT & SIZING:* ${request.sizeMode === 'standard' ? `Standard UK Size [ ${request.standardSize} ]` : 'CUSTOM MEASUREMENTS'}\n`;
 
   if (request.sizeMode === 'custom' && request.measurements) {
     const m = request.measurements;

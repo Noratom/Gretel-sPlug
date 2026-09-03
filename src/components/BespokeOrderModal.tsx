@@ -10,16 +10,16 @@ interface BespokeOrderModalProps {
   onOpenMeasurementGuide: () => void;
 }
 
-const STANDARD_SIZES = [
-  { size: 'XS', waist: '24-25"', hips: '34-35"', length: '20-21"' },
-  { size: 'S', waist: '26-27"', hips: '36-37"', length: '20-21"' },
-  { size: 'M', waist: '28-29"', hips: '38-39"', length: '21-22"' },
-  { size: 'L', waist: '30-31"', hips: '40-41"', length: '22-23"' },
-  { size: 'XL', waist: '32-34"', hips: '42-44"', length: '22-23"' },
-  { size: '2XL', waist: '35-37"', hips: '45-47"', length: '23-24"' },
-  { size: '3XL', waist: '38-40"', hips: '48-50"', length: '23-24"' },
-  { size: '4XL', waist: '41-43"', hips: '51-53"', length: '24-25"' },
-  { size: '5XL', waist: '44-46"', hips: '54-56"', length: '25-26"' }
+const AIR_LUXE_UK_SIZES = [
+  { ukSize: 'UK 4', bust: '30"', waist: '23"', hip: '33"' },
+  { ukSize: 'UK 6', bust: '32"', waist: '25"', hip: '35"' },
+  { ukSize: 'UK 8', bust: '34"', waist: '27"', hip: '37"' },
+  { ukSize: 'UK 10', bust: '36"', waist: '29"', hip: '39"' },
+  { ukSize: 'UK 12', bust: '38"', waist: '31"', hip: '41"' },
+  { ukSize: 'UK 14', bust: '40"', waist: '33"', hip: '43"' },
+  { ukSize: 'UK 16', bust: '42"', waist: '35"', hip: '45"' },
+  { ukSize: 'UK 18', bust: '44"', waist: '37"', hip: '47"' },
+  { ukSize: 'UK 20', bust: '46"', waist: '39"', hip: '49"' }
 ];
 
 export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
@@ -32,7 +32,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
 
   const [selectedFabric, setSelectedFabric] = useState<FabricOption>(design.fabrics[0]);
   const [sizeMode, setSizeMode] = useState<SizeMode>('custom');
-  const [standardSize, setStandardSize] = useState<string>('M');
+  const [standardSize, setStandardSize] = useState<string>('UK 10');
 
   const [measurements, setMeasurements] = useState<CustomMeasurements>({
     bust: '',
@@ -176,7 +176,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             </div>
           </div>
 
-          {/* Section 2: 20 Body Measurements */}
+          {/* Section 2: Body Sizing */}
           <div className="space-y-4 pt-2 border-t border-silk-taupe/60">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
@@ -190,7 +190,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 className="text-xs font-extrabold text-gold-dark hover:underline flex items-center gap-1.5 bg-gold/15 px-3 py-1.5 rounded-lg border border-gold/40"
               >
                 <Ruler className="w-3.5 h-3.5 text-gold-dark" />
-                <span>View Diagram & Size Charts</span>
+                <span>View Air_Luxe Size Chart & Diagram</span>
               </button>
             </div>
 
@@ -216,21 +216,21 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                     : 'text-charcoal/70 hover:text-charcoal'
                 }`}
               >
-                Standard Size (XS to 5XL)
+                Air_Luxe UK Size Chart (UK 4 - 20)
               </button>
             </div>
 
             {sizeMode === 'standard' ? (
               <div className="p-4 bg-cream-200/50 rounded-2xl border border-silk-taupe space-y-3">
-                <span className="text-xs font-bold text-charcoal block">Select Standard Size Chart (XS - 5XL):</span>
+                <span className="text-xs font-bold text-charcoal block">Select Official Air_Luxe UK Size (All in Inches):</span>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2.5">
-                  {STANDARD_SIZES.map((item) => {
-                    const isSelected = standardSize === item.size;
+                  {AIR_LUXE_UK_SIZES.map((item) => {
+                    const isSelected = standardSize === item.ukSize;
                     return (
                       <button
                         type="button"
-                        key={item.size}
-                        onClick={() => setStandardSize(item.size)}
+                        key={item.ukSize}
+                        onClick={() => setStandardSize(item.ukSize)}
                         className={`p-3 rounded-xl border text-left transition flex flex-col justify-between ${
                           isSelected
                             ? 'bg-gold text-charcoal border-gold font-bold shadow-sm ring-2 ring-gold/30'
@@ -238,13 +238,13 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                         }`}
                       >
                         <div className="flex items-center justify-between font-extrabold text-sm mb-1">
-                          <span>{item.size}</span>
+                          <span>{item.ukSize}</span>
                           {isSelected && <CheckCircle2 className="w-4 h-4 text-charcoal" />}
                         </div>
                         <div className="text-[10px] space-y-0.5 opacity-90">
+                          <div>Bust: {item.bust}</div>
                           <div>Waist: {item.waist}</div>
-                          <div>Hips: {item.hips}</div>
-                          <div>Length: {item.length}</div>
+                          <div>Hip: {item.hip}</div>
                         </div>
                       </button>
                     );
@@ -255,7 +255,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
               /* All 20 Visual Body Measurement Inputs */
               <div className="p-5 bg-cream-200/50 rounded-2xl border border-silk-taupe space-y-4">
                 <p className="text-xs font-semibold text-charcoal/80">
-                  Enter your measurements in inches or cm (leave any blank if unsure, tailors will verify on WhatsApp):
+                  Enter your measurements in inches (leave any blank if unsure, tailors will verify on WhatsApp):
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
