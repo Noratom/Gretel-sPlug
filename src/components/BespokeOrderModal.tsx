@@ -23,13 +23,19 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
   const [standardSize, setStandardSize] = useState<string>('M');
 
   const [measurements, setMeasurements] = useState<CustomMeasurements>({
+    shoulder: '',
     bustChest: '',
-    waist: '',
-    hips: '',
-    shoulderWidth: '',
-    sleeveLength: '',
+    nipToNip: '',
+    bustPoint: '',
+    underbust: '',
+    halfCut: '',
+    waistNavel: '',
+    hip: '',
+    thigh: '',
     totalHeight: '',
-    desiredOutfitLength: '',
+    totalLength: '',
+    sleeves: '',
+    sleeveRoundCurve: '',
     additionalNotes: ''
   });
 
@@ -63,18 +69,18 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal/70 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn text-charcoal">
       <div className="bg-cream-100 w-full max-w-4xl rounded-3xl border border-gold/40 shadow-2xl overflow-hidden relative max-h-[92vh] flex flex-col my-auto">
         {/* Header Bar */}
         <div className="bg-charcoal text-cream-100 px-6 py-4 flex items-center justify-between border-b border-gold/30">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full border border-gold overflow-hidden">
-              <img src="/logo.jpg" alt="Gretel's Plug logo" className="w-full h-full object-cover" />
+              <img src="/logo.jpg" alt="Air_Luxe emblem" className="w-full h-full object-cover" />
             </div>
             <div>
               <h3 className="font-serif text-lg font-bold text-cream-100 flex items-center gap-2">
                 <span>Custom Outfit Order</span>
-                <span className="text-gold text-xs font-sans tracking-widest font-normal uppercase hidden sm:inline">| Gretel's Plug</span>
+                <span className="text-gold text-xs font-sans tracking-widest font-normal uppercase hidden sm:inline">| Air_Luxe</span>
               </h3>
             </div>
           </div>
@@ -87,7 +93,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
+        {/* Form Body */}
         <form onSubmit={handleOrderSubmit} className="p-6 sm:p-8 overflow-y-auto space-y-8 flex-1">
           {/* Outfit Overview Row */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 bg-cream-200/80 p-5 rounded-2xl border border-silk-taupe">
@@ -151,12 +157,12 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             </div>
           </div>
 
-          {/* Section 2: Size & Measurements */}
+          {/* Section 2: 13 Tailor Body Measurements */}
           <div className="space-y-4 pt-2 border-t border-silk-taupe/60">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
                 <Ruler className="w-4 h-4 text-gold" />
-                2. Your Sizing & Fit
+                2. Body Measurements Profile
               </label>
 
               <button
@@ -164,11 +170,11 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 onClick={onOpenMeasurementGuide}
                 className="text-[11px] font-bold text-gold-dark hover:underline flex items-center gap-1"
               >
-                <span>How to measure yourself</span>
+                <span>View Measurement Guide</span>
               </button>
             </div>
 
-            {/* Toggle Mode Buttons */}
+            {/* Sizing Mode Toggle */}
             <div className="grid grid-cols-2 gap-3 p-1 bg-cream-200 rounded-xl border border-silk-taupe">
               <button
                 type="button"
@@ -194,7 +200,6 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
               </button>
             </div>
 
-            {/* Standard Size Selector */}
             {sizeMode === 'standard' ? (
               <div className="p-4 bg-cream-200/50 rounded-xl border border-silk-taupe space-y-3">
                 <span className="text-xs font-bold text-charcoal block">Choose Standard Size:</span>
@@ -216,15 +221,26 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                 </div>
               </div>
             ) : (
-              /* Custom Body Measurements */
+              /* All 13 Tailor Measurement Fields */
               <div className="p-5 bg-cream-200/50 rounded-2xl border border-silk-taupe space-y-4">
                 <p className="text-xs font-semibold text-charcoal/80">
-                  Enter your body measurements (leave blank if unsure, we will confirm on WhatsApp):
+                  Enter your measurements in inches or cm (leave blank if unsure, tailors will verify on WhatsApp):
                 </p>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Bust / Chest</label>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">1. Shoulder</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 15.5 in"
+                      value={measurements.shoulder}
+                      onChange={(e) => handleInputChange('shoulder', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">2. Bust / Chest</label>
                     <input
                       type="text"
                       placeholder="e.g. 36 in"
@@ -235,51 +251,84 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Waist</label>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">3. Nip-Nip</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 7.5 in"
+                      value={measurements.nipToNip}
+                      onChange={(e) => handleInputChange('nipToNip', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">4. Bust Point</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 10.5 in"
+                      value={measurements.bustPoint}
+                      onChange={(e) => handleInputChange('bustPoint', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">5. Underbust</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 30 in"
+                      value={measurements.underbust}
+                      onChange={(e) => handleInputChange('underbust', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">6. Half-Cut</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 16 in"
+                      value={measurements.halfCut}
+                      onChange={(e) => handleInputChange('halfCut', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">7. Waist / Navel</label>
                     <input
                       type="text"
                       placeholder="e.g. 28 in"
-                      value={measurements.waist}
-                      onChange={(e) => handleInputChange('waist', e.target.value)}
+                      value={measurements.waistNavel}
+                      onChange={(e) => handleInputChange('waistNavel', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Hips</label>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">8. Hip</label>
                     <input
                       type="text"
                       placeholder="e.g. 40 in"
-                      value={measurements.hips}
-                      onChange={(e) => handleInputChange('hips', e.target.value)}
+                      value={measurements.hip}
+                      onChange={(e) => handleInputChange('hip', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Shoulder Width</label>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">9. Thigh</label>
                     <input
                       type="text"
-                      placeholder="e.g. 15.5 in"
-                      value={measurements.shoulderWidth}
-                      onChange={(e) => handleInputChange('shoulderWidth', e.target.value)}
+                      placeholder="e.g. 23 in"
+                      value={measurements.thigh}
+                      onChange={(e) => handleInputChange('thigh', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Sleeve Length</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 24 in"
-                      value={measurements.sleeveLength}
-                      onChange={(e) => handleInputChange('sleeveLength', e.target.value)}
-                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Total Height</label>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">10. Height</label>
                     <input
                       type="text"
                       placeholder="e.g. 5 ft 8 in"
@@ -289,13 +338,35 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
                     />
                   </div>
 
-                  <div className="col-span-2">
-                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">Outfit Length / Heels</label>
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">11. Total Length</label>
                     <input
                       type="text"
-                      placeholder="e.g. Floor length with heels"
-                      value={measurements.desiredOutfitLength}
-                      onChange={(e) => handleInputChange('desiredOutfitLength', e.target.value)}
+                      placeholder="e.g. 60 in (Floor)"
+                      value={measurements.totalLength}
+                      onChange={(e) => handleInputChange('totalLength', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">12. Sleeves</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 24 in"
+                      value={measurements.sleeves}
+                      onChange={(e) => handleInputChange('sleeves', e.target.value)}
+                      className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="col-span-2 sm:col-span-3 lg:col-span-4">
+                    <label className="text-[11px] font-bold text-charcoal uppercase block mb-1">13. Sleeve Round Curve (Armhole / Bicep)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. 13.5 in"
+                      value={measurements.sleeveRoundCurve}
+                      onChange={(e) => handleInputChange('sleeveRoundCurve', e.target.value)}
                       className="w-full bg-cream-100 border border-silk-taupe px-3 py-2 rounded-xl text-xs font-medium focus:border-gold focus:outline-none"
                     />
                   </div>
@@ -304,7 +375,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
             )}
           </div>
 
-          {/* Section 3: Notes & Customer Info */}
+          {/* Section 3: Customer Info */}
           <div className="space-y-4 pt-2 border-t border-silk-taupe/60">
             <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal block">
               3. Special Request & Customer Info
@@ -350,7 +421,7 @@ export const BespokeOrderModal: React.FC<BespokeOrderModalProps> = ({
           <div className="pt-4 border-t border-silk-taupe flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-xs text-charcoal/70">
               <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
-              <span>Direct WhatsApp message sent to Gretel's Plug tailors</span>
+              <span>Direct WhatsApp message sent to Air_Luxe tailors</span>
             </div>
 
             <button

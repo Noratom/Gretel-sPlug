@@ -32,13 +32,19 @@ export interface BespokeDesign {
 }
 
 export interface CustomMeasurements {
+  shoulder: string;
   bustChest: string;
-  waist: string;
-  hips: string;
-  shoulderWidth: string;
-  sleeveLength: string;
+  nipToNip: string;
+  bustPoint: string;
+  underbust: string;
+  halfCut: string;
+  waistNavel: string;
+  hip: string;
+  thigh: string;
   totalHeight: string;
-  desiredOutfitLength: string;
+  totalLength: string;
+  sleeves: string;
+  sleeveRoundCurve: string;
   additionalNotes: string;
 }
 

@@ -27,13 +27,19 @@ export const CustomDesignModal: React.FC<CustomDesignModalProps> = ({
   const [standardSize, setStandardSize] = useState<string>('M');
 
   const [measurements, setMeasurements] = useState<CustomMeasurements>({
+    shoulder: '',
     bustChest: '',
-    waist: '',
-    hips: '',
-    shoulderWidth: '',
-    sleeveLength: '',
+    nipToNip: '',
+    bustPoint: '',
+    underbust: '',
+    halfCut: '',
+    waistNavel: '',
+    hip: '',
+    thigh: '',
     totalHeight: '',
-    desiredOutfitLength: '',
+    totalLength: '',
+    sleeves: '',
+    sleeveRoundCurve: '',
     additionalNotes: ''
   });
 
@@ -80,19 +86,19 @@ export const CustomDesignModal: React.FC<CustomDesignModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
-      <div className="bg-cream-100 w-full max-w-3xl rounded-3xl border border-gold/40 shadow-2xl overflow-hidden relative max-h-[92vh] flex flex-col my-auto text-charcoal">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-charcoal/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 animate-fadeIn text-charcoal">
+      <div className="bg-cream-100 w-full max-w-4xl rounded-3xl border border-gold/40 shadow-2xl overflow-hidden relative max-h-[92vh] flex flex-col my-auto text-charcoal">
         {/* Header Bar */}
         <div className="bg-charcoal text-cream-100 px-6 py-4 flex items-center justify-between border-b border-gold/30">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full border border-gold overflow-hidden">
-              <img src="/logo.jpg" alt="Gretel's Plug logo" className="w-full h-full object-cover" />
+              <img src="/logo.jpg" alt="Air_Luxe logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h3 className="font-serif text-lg font-bold text-cream-100">
                 Send Your Own Outfit Design
               </h3>
-              <p className="text-[10px] text-gold tracking-widest uppercase">Gretel's Plug Custom Tailoring</p>
+              <p className="text-[10px] text-gold tracking-widest uppercase">Air_Luxe • Gretel's Plug Custom Studio</p>
             </div>
           </div>
 
@@ -198,7 +204,7 @@ export const CustomDesignModal: React.FC<CustomDesignModalProps> = ({
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-charcoal flex items-center gap-1.5">
                 <Ruler className="w-4 h-4 text-gold" />
-                2. Sizing & Measurements
+                2. Body Measurements Profile
               </label>
 
               <button
@@ -251,9 +257,20 @@ export const CustomDesignModal: React.FC<CustomDesignModalProps> = ({
                 </div>
               </div>
             ) : (
-              <div className="p-4 bg-cream-200/50 rounded-2xl border border-silk-taupe grid grid-cols-2 sm:grid-cols-4 gap-3">
+              /* All 13 Tailor Measurement Inputs */
+              <div className="p-4 bg-cream-200/50 rounded-2xl border border-silk-taupe grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 <div>
-                  <label className="text-[10px] font-bold uppercase block mb-1">Bust / Chest</label>
+                  <label className="text-[10px] font-bold uppercase block mb-1">1. Shoulder</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 15.5 in"
+                    value={measurements.shoulder}
+                    onChange={(e) => handleInputChange('shoulder', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">2. Bust / Chest</label>
                   <input
                     type="text"
                     placeholder="e.g. 36 in"
@@ -263,32 +280,112 @@ export const CustomDesignModal: React.FC<CustomDesignModalProps> = ({
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold uppercase block mb-1">Waist</label>
+                  <label className="text-[10px] font-bold uppercase block mb-1">3. Nip-Nip</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 7.5 in"
+                    value={measurements.nipToNip}
+                    onChange={(e) => handleInputChange('nipToNip', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">4. Bust Point</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 10.5 in"
+                    value={measurements.bustPoint}
+                    onChange={(e) => handleInputChange('bustPoint', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">5. Underbust</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 30 in"
+                    value={measurements.underbust}
+                    onChange={(e) => handleInputChange('underbust', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">6. Half-Cut</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 16 in"
+                    value={measurements.halfCut}
+                    onChange={(e) => handleInputChange('halfCut', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">7. Waist / Navel</label>
                   <input
                     type="text"
                     placeholder="e.g. 28 in"
-                    value={measurements.waist}
-                    onChange={(e) => handleInputChange('waist', e.target.value)}
+                    value={measurements.waistNavel}
+                    onChange={(e) => handleInputChange('waistNavel', e.target.value)}
                     className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold uppercase block mb-1">Hips</label>
+                  <label className="text-[10px] font-bold uppercase block mb-1">8. Hip</label>
                   <input
                     type="text"
                     placeholder="e.g. 40 in"
-                    value={measurements.hips}
-                    onChange={(e) => handleInputChange('hips', e.target.value)}
+                    value={measurements.hip}
+                    onChange={(e) => handleInputChange('hip', e.target.value)}
                     className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold uppercase block mb-1">Height</label>
+                  <label className="text-[10px] font-bold uppercase block mb-1">9. Thigh</label>
                   <input
                     type="text"
-                    placeholder="e.g. 5ft 7in"
+                    placeholder="e.g. 23 in"
+                    value={measurements.thigh}
+                    onChange={(e) => handleInputChange('thigh', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">10. Height</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 5ft 8in"
                     value={measurements.totalHeight}
                     onChange={(e) => handleInputChange('totalHeight', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">11. Total Length</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 60 in"
+                    value={measurements.totalLength}
+                    onChange={(e) => handleInputChange('totalLength', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold uppercase block mb-1">12. Sleeves</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 24 in"
+                    value={measurements.sleeves}
+                    onChange={(e) => handleInputChange('sleeves', e.target.value)}
+                    className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
+                  />
+                </div>
+                <div className="col-span-2 sm:col-span-3 lg:col-span-4">
+                  <label className="text-[10px] font-bold uppercase block mb-1">13. Sleeve Round Curve (Armhole/Bicep)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 13.5 in"
+                    value={measurements.sleeveRoundCurve}
+                    onChange={(e) => handleInputChange('sleeveRoundCurve', e.target.value)}
                     className="w-full bg-cream-100 border border-silk-taupe px-2.5 py-1.5 rounded-lg text-xs"
                   />
                 </div>

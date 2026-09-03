@@ -1,6 +1,6 @@
 import { BespokeOrderState, CustomDesignRequestState } from '../types/bespoke';
 
-// Default WhatsApp Phone Number for Gretel's Plug
+// Default WhatsApp Phone Number for Gretel's Plug / Air_Luxe
 export const DEFAULT_WHATSAPP_NUMBER = '09161273360';
 
 export function cleanPhoneNumber(phone: string): string {
@@ -16,7 +16,7 @@ export function formatWhatsAppMessage(order: BespokeOrderState): string {
 
   if (!design) return '';
 
-  let msg = `✨ *CUSTOM OUTFIT ORDER - GRETEL'S PLUG* ✨\n\n`;
+  let msg = `✨ *CUSTOM OUTFIT ORDER - AIR_LUXE (GRETEL'S PLUG)* ✨\n\n`;
 
   msg += `📌 *OUTFIT DETAILS:*\n`;
   msg += `• *Name:* ${design.title}\n`;
@@ -30,14 +30,21 @@ export function formatWhatsAppMessage(order: BespokeOrderState): string {
 
   msg += `\n📐 *YOUR SIZING:* ${sizeMode === 'standard' ? `Standard Size [ ${standardSize} ]` : 'CUSTOM BODY MEASUREMENTS'}\n`;
 
-  if (sizeMode === 'custom') {
-    if (measurements.bustChest) msg += `• Bust / Chest: ${measurements.bustChest}\n`;
-    if (measurements.waist) msg += `• Waist: ${measurements.waist}\n`;
-    if (measurements.hips) msg += `• Hips: ${measurements.hips}\n`;
-    if (measurements.shoulderWidth) msg += `• Shoulder Width: ${measurements.shoulderWidth}\n`;
-    if (measurements.sleeveLength) msg += `• Sleeve Length: ${measurements.sleeveLength}\n`;
-    if (measurements.totalHeight) msg += `• Height: ${measurements.totalHeight}\n`;
-    if (measurements.desiredOutfitLength) msg += `• Outfit Length / Heels: ${measurements.desiredOutfitLength}\n`;
+  if (sizeMode === 'custom' && measurements) {
+    const m = measurements;
+    if (m.shoulder) msg += `• Shoulder: ${m.shoulder}\n`;
+    if (m.bustChest) msg += `• Bust / Chest: ${m.bustChest}\n`;
+    if (m.nipToNip) msg += `• Nip-Nip: ${m.nipToNip}\n`;
+    if (m.bustPoint) msg += `• Bust Point: ${m.bustPoint}\n`;
+    if (m.underbust) msg += `• Underbust: ${m.underbust}\n`;
+    if (m.halfCut) msg += `• Half-Cut: ${m.halfCut}\n`;
+    if (m.waistNavel) msg += `• Waist / Navel: ${m.waistNavel}\n`;
+    if (m.hip) msg += `• Hip: ${m.hip}\n`;
+    if (m.thigh) msg += `• Thigh: ${m.thigh}\n`;
+    if (m.totalHeight) msg += `• Height: ${m.totalHeight}\n`;
+    if (m.totalLength) msg += `• Total Length: ${m.totalLength}\n`;
+    if (m.sleeves) msg += `• Sleeves: ${m.sleeves}\n`;
+    if (m.sleeveRoundCurve) msg += `• Sleeve Round Curve: ${m.sleeveRoundCurve}\n`;
   }
 
   if (measurements.additionalNotes) {
@@ -49,14 +56,14 @@ export function formatWhatsAppMessage(order: BespokeOrderState): string {
   if (clientPhone) msg += `• Phone: ${clientPhone}\n`;
   if (fittingDatePreference) msg += `• Needed By Date: ${fittingDatePreference}\n`;
 
-  msg += `\nHello Gretel's Plug, I want to order this custom outfit. Please confirm fabric and fitting details!`;
+  msg += `\nHello Air_Luxe team, I want to order this custom outfit. Please confirm fabric and fitting details!`;
 
   return encodeURIComponent(msg);
 }
 
 export function formatCustomDesignWhatsAppMessage(request: CustomDesignRequestState): string {
-  let msg = `🎨 *MY OWN CUSTOM DESIGN REQUEST - GRETEL'S PLUG* 🎨\n\n`;
-  msg += `Hello Gretel's Plug! I have a picture of an outfit design I want you to make for me.\n\n`;
+  let msg = `🎨 *MY OWN CUSTOM DESIGN REQUEST - AIR_LUXE (GRETEL'S PLUG)* 🎨\n\n`;
+  msg += `Hello! I have a picture of an outfit design I want you to make for me.\n\n`;
 
   msg += `📌 *REQUEST DETAILS:*\n`;
   msg += `• *Outfit Description:* ${request.description || 'Custom Outfit Design'}\n`;
@@ -68,11 +75,19 @@ export function formatCustomDesignWhatsAppMessage(request: CustomDesignRequestSt
 
   if (request.sizeMode === 'custom' && request.measurements) {
     const m = request.measurements;
+    if (m.shoulder) msg += `• Shoulder: ${m.shoulder}\n`;
     if (m.bustChest) msg += `• Bust / Chest: ${m.bustChest}\n`;
-    if (m.waist) msg += `• Waist: ${m.waist}\n`;
-    if (m.hips) msg += `• Hips: ${m.hips}\n`;
+    if (m.nipToNip) msg += `• Nip-Nip: ${m.nipToNip}\n`;
+    if (m.bustPoint) msg += `• Bust Point: ${m.bustPoint}\n`;
+    if (m.underbust) msg += `• Underbust: ${m.underbust}\n`;
+    if (m.halfCut) msg += `• Half-Cut: ${m.halfCut}\n`;
+    if (m.waistNavel) msg += `• Waist / Navel: ${m.waistNavel}\n`;
+    if (m.hip) msg += `• Hip: ${m.hip}\n`;
+    if (m.thigh) msg += `• Thigh: ${m.thigh}\n`;
     if (m.totalHeight) msg += `• Height: ${m.totalHeight}\n`;
-    if (m.desiredOutfitLength) msg += `• Outfit Length: ${m.desiredOutfitLength}\n`;
+    if (m.totalLength) msg += `• Total Length: ${m.totalLength}\n`;
+    if (m.sleeves) msg += `• Sleeves: ${m.sleeves}\n`;
+    if (m.sleeveRoundCurve) msg += `• Sleeve Round Curve: ${m.sleeveRoundCurve}\n`;
   }
 
   msg += `\n👤 *CUSTOMER INFO:*\n`;
@@ -100,8 +115,8 @@ export function openCustomDesignWhatsAppRequest(request: CustomDesignRequestStat
 
 export function openWhatsAppGeneralInquiry(phoneNumber: string = DEFAULT_WHATSAPP_NUMBER, queryText?: string) {
   const defaultText = queryText 
-    ? `Hello Gretel's Plug, I am inquiring about: ${queryText}`
-    : `Hello Gretel's Plug, I would like to make a custom outfit order or ask about a design.`;
+    ? `Hello Air_Luxe (Gretel's Plug), I am inquiring about: ${queryText}`
+    : `Hello Air_Luxe (Gretel's Plug), I would like to make a custom outfit order or ask about a design.`;
   const cleanPhone = cleanPhoneNumber(phoneNumber);
   const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(defaultText)}`;
   window.open(url, '_blank');
