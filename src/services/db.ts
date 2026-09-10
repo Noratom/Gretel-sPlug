@@ -47,7 +47,7 @@ export async function fetchCatalogDesignsWithStatus(): Promise<CatalogFetchResul
       if (error) {
         console.warn('Supabase fetch error:', error);
         // Error PGRST205 means outfits table has not been created yet in Supabase
-        const tableMissing = error.code === 'PGRST205' || (error.message && error.message.includes('outfits'));
+        const tableMissing = error.code === 'PGRST205' || (error.message ? error.message.includes('outfits') : false);
         return {
           designs: getLocalStorageDesigns(),
           isCloudConnected: false,

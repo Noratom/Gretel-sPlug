@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BespokeDesign } from './types/bespoke';
-import { BESPOKE_DESIGNS, ATELIER_INFO } from './data/designs';
+import { BESPOKE_DESIGNS } from './data/designs';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Catalog } from './components/Catalog';
@@ -13,8 +13,9 @@ import { MeasurementGuideModal } from './components/MeasurementGuideModal';
 import { AdminAuthModal } from './components/AdminAuthModal';
 import { AdminModal } from './components/AdminModal';
 import { Footer } from './components/Footer';
-import { fetchCatalogDesignsWithStatus, syncCatalogDesigns, DEFAULT_WHATSAPP_NUMBER } from './services/db';
-import { Database, AlertTriangle, Copy, CheckCircle2, RefreshCw } from 'lucide-react';
+import { fetchCatalogDesignsWithStatus, syncCatalogDesigns } from './services/db';
+import { DEFAULT_WHATSAPP_NUMBER } from './utils/whatsapp';
+import { AlertTriangle, Copy, CheckCircle2, RefreshCw } from 'lucide-react';
 
 export function App() {
   const [designs, setDesigns] = useState<BespokeDesign[]>([]);
@@ -114,7 +115,8 @@ CREATE POLICY "Allow public delete" ON public.outfits FOR DELETE USING (true);`;
         whatsappNumber={whatsappNumber}
         onOpenMeasurementGuide={() => setIsMeasurementGuideModalOpen(true)}
         onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
-        onOpenAdminAuth={() => setIsAdminAuthOpen(true)}
+        onOpenAdmin={() => setIsAdminAuthOpen(true)}
+        onSelectCategory={setSelectedCategory}
       />
 
       {/* SQL Table Setup Notice Banner if Supabase table outfits is missing */}
@@ -173,6 +175,8 @@ CREATE POLICY "Allow public delete" ON public.outfits FOR DELETE USING (true);`;
           designs={designs}
           onSelectDesign={(design) => setSelectedDesign(design)}
           onQuickView={(design) => setQuickViewDesign(design)}
+          whatsappNumber={whatsappNumber}
+          onOpenCustomDesignModal={() => setIsCustomDesignModalOpen(true)}
         />
 
         <CraftsmanshipProcess
@@ -229,7 +233,7 @@ CREATE POLICY "Allow public delete" ON public.outfits FOR DELETE USING (true);`;
       {/* Admin Auth Modal */}
       {isAdminAuthOpen && (
         <AdminAuthModal
-          adminPin={adminPin}
+          correctPin={adminPin}
           onSuccess={() => {
             setIsAdminAuthOpen(false);
             setIsAdminModalOpen(true);
@@ -253,3 +257,5 @@ CREATE POLICY "Allow public delete" ON public.outfits FOR DELETE USING (true);`;
     </div>
   );
 }
+
+export default App;
