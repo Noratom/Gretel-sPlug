@@ -59,6 +59,10 @@ CREATE TABLE IF NOT EXISTS public.outfits (
 );
 
 ALTER TABLE public.outfits ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Allow public select" ON public.outfits;
+DROP POLICY IF EXISTS "Allow public insert" ON public.outfits;
+DROP POLICY IF EXISTS "Allow public update" ON public.outfits;
+DROP POLICY IF EXISTS "Allow public delete" ON public.outfits;
 CREATE POLICY "Allow public select" ON public.outfits FOR SELECT USING (true);
 CREATE POLICY "Allow public insert" ON public.outfits FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public update" ON public.outfits FOR UPDATE USING (true);
